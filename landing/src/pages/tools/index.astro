@@ -1,0 +1,475 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+// Tools data with Phosphor duotone icons - SEO optimized based on Ahrefs keyword research
+const tools = [
+  {
+    id: 'full-seo-audit',
+    name: 'Free SEO Audit Tool',
+    command: '/suparank-full',
+    description: 'Complete website SEO audit combining on-page analysis, technical SEO, Core Web Vitals, accessibility, and schema validation in one comprehensive report.',
+    category: 'Complete',
+    icon: 'ph-duotone ph-crosshair',
+    features: ['On-page SEO checker', 'Technical site audit', 'Core Web Vitals test', 'WCAG accessibility scan', 'Schema validation'],
+    searchVolume: '4.3K/mo',
+    featured: true
+  },
+  {
+    id: 'on-page-seo-checker',
+    name: 'On-Page SEO Checker',
+    command: '/suparank-onpage',
+    description: 'Free on-page SEO analysis tool with 25+ checks. Analyze title tags, meta descriptions, heading structure, keyword density, and internal links like Ahrefs and Semrush.',
+    category: 'SEO',
+    icon: 'ph-duotone ph-chart-bar',
+    features: ['Title tag analyzer', 'Meta description checker', 'H1-H6 heading audit', 'Keyword density analysis', 'Internal link checker'],
+    searchVolume: '10K/mo'
+  },
+  {
+    id: 'accessibility-checker',
+    name: 'Website Accessibility Checker',
+    command: '/suparank-a11y',
+    description: 'Free WCAG 2.2 accessibility checker for Level AA compliance. Test color contrast ratios, alt text, keyboard navigation, ARIA labels, and ADA compliance.',
+    category: 'Accessibility',
+    icon: 'ph-duotone ph-wheelchair',
+    features: ['WCAG 2.2 Level AA', 'Color contrast checker', 'Alt text validator', 'Keyboard navigation test', 'ARIA attribute audit'],
+    searchVolume: '4K/mo'
+  },
+  {
+    id: 'llms-txt-generator',
+    name: 'LLMs.txt Generator',
+    command: '/suparank-llms',
+    description: 'Generate llms.txt and llms-full.txt files for AI search optimization. Help ChatGPT, Claude, and Perplexity discover and understand your content.',
+    category: 'AI SEO',
+    icon: 'ph-duotone ph-robot',
+    features: ['llms.txt creator', 'llms-full.txt builder', 'AI crawler optimization', 'Content structure mapping', 'llmstxt.org compliant'],
+    searchVolume: 'New'
+  },
+  {
+    id: 'robots-txt-generator',
+    name: 'Robots.txt Generator',
+    command: '/suparank-robots',
+    description: 'Free robots.txt generator with AI crawler rules. Create optimized robots.txt files with sitemap references, GPTBot rules, and framework-specific settings.',
+    category: 'Technical',
+    icon: 'ph-duotone ph-file-code',
+    features: ['AI crawler rules', 'GPTBot directives', 'Sitemap integration', 'Framework detection', 'Crawl budget optimization'],
+    searchVolume: '1K/mo'
+  },
+  {
+    id: 'technical-seo-audit',
+    name: 'Technical SEO Audit Tool',
+    command: '/suparank-technical',
+    description: 'Free technical SEO audit covering crawlability, indexation, HTTPS security, redirect chains, canonical tags, and structured data validation.',
+    category: 'Technical',
+    icon: 'ph-duotone ph-gear-six',
+    features: ['Crawlability analysis', 'Index coverage check', 'HTTPS security audit', 'Redirect chain detector', 'Canonical URL validator'],
+    searchVolume: '4.2K/mo'
+  },
+  {
+    id: 'schema-markup-generator',
+    name: 'Schema Markup Generator',
+    command: '/suparank-schema',
+    description: 'Free JSON-LD schema generator and validator. Create Article, FAQ, HowTo, Product, and Organization structured data for Google rich results.',
+    category: 'Technical',
+    icon: 'ph-duotone ph-brackets-curly',
+    features: ['JSON-LD generator', 'Schema.org validator', 'Rich results preview', 'FAQ schema creator', 'Article schema builder'],
+    searchVolume: '1.4K/mo'
+  },
+  {
+    id: 'core-web-vitals-checker',
+    name: 'Core Web Vitals Checker',
+    command: '/suparank-cwv',
+    description: 'Test Core Web Vitals performance: LCP (Largest Contentful Paint), INP (Interaction to Next Paint), and CLS (Cumulative Layout Shift) with fix recommendations.',
+    category: 'Performance',
+    icon: 'ph-duotone ph-lightning',
+    features: ['LCP analyzer', 'INP measurement', 'CLS detector', 'Page speed insights', 'Performance score'],
+    searchVolume: '6.6K/mo'
+  },
+  {
+    id: 'meta-tag-generator',
+    name: 'Meta Tag Generator',
+    command: '/suparank-meta',
+    description: 'Free meta tag generator for SEO. Create optimized title tags, meta descriptions, Open Graph tags, Twitter Cards, and canonical URLs with live preview.',
+    category: 'SEO',
+    icon: 'ph-duotone ph-tag',
+    features: ['Title tag optimizer', 'Meta description creator', 'Open Graph generator', 'Twitter Card builder', 'SERP preview'],
+    searchVolume: '450/mo'
+  },
+  {
+    id: 'internal-link-checker',
+    name: 'Internal Link Checker',
+    command: '/suparank-links',
+    description: 'Free internal link checker and broken link detector. Analyze anchor text distribution, find orphan pages, check redirect chains, and audit external links.',
+    category: 'SEO',
+    icon: 'ph-duotone ph-link',
+    features: ['Broken link finder', 'Internal link analyzer', 'Anchor text audit', 'Orphan page detector', 'Redirect chain checker'],
+    searchVolume: '2.4K/mo'
+  },
+  {
+    id: 'alt-text-checker',
+    name: 'Image Alt Text Checker',
+    command: '/suparank-images',
+    description: 'Free alt text checker and image SEO audit tool. Validate alt attributes, check image file sizes, detect WebP/AVIF support, and verify lazy loading.',
+    category: 'Performance',
+    icon: 'ph-duotone ph-image',
+    features: ['Alt text validator', 'Image size analyzer', 'WebP/AVIF checker', 'Lazy loading audit', 'Responsive image test'],
+    searchVolume: '100/mo'
+  }
+];
+
+const categories = ['All', 'Complete', 'SEO', 'Technical', 'Accessibility', 'Performance', 'AI SEO'];
+
+// Schema.org - SEO optimized
+const toolsCollectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Free SEO Audit Tools - On-Page Checker, Schema Generator, Core Web Vitals",
+  "description": "11 free SEO tools: on-page SEO checker, WCAG accessibility tester, schema markup generator, Core Web Vitals checker, robots.txt generator, meta tag generator, internal link checker, and more.",
+  "url": "https://suparank.io/tools",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Suparank",
+    "url": "https://suparank.io"
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": tools.map((tool, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": tool.name,
+      "description": tool.description,
+      "url": `https://suparank.io/tools/${tool.id}`
+    }))
+  }
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the best free SEO audit tool?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Suparank offers a comprehensive free SEO audit tool that combines on-page analysis, technical SEO checks, Core Web Vitals testing, accessibility scanning, and schema validation. Unlike web-based tools, it runs directly in your AI coding assistant (Claude Code, Cursor) for instant feedback while you code."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I check my website's Core Web Vitals?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use Suparank's Core Web Vitals Checker by running /suparank-cwv in your AI assistant. It analyzes LCP (Largest Contentful Paint), INP (Interaction to Next Paint), and CLS (Cumulative Layout Shift) metrics with specific fix recommendations for each issue."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I generate JSON-LD schema markup?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Run /suparank-schema in your AI assistant. The Schema Markup Generator creates valid JSON-LD structured data for Article, FAQ, HowTo, Product, Organization, and other schema.org types. It validates existing markup and suggests missing schemas for Google rich results."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a robots.txt generator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A robots.txt generator creates the robots.txt file that tells search engine crawlers which pages to index. Suparank's generator (/suparank-robots) includes AI crawler rules for GPTBot and Google-Extended, sitemap references, and framework-specific settings for Next.js, Astro, and WordPress."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I check website accessibility for WCAG compliance?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use Suparank's Website Accessibility Checker (/suparank-a11y) to test WCAG 2.2 Level AA compliance. It checks color contrast ratios (4.5:1 minimum), alt text on images, keyboard navigation, ARIA attributes, form labels, and focus management with detailed fix recommendations."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are these SEO tools free to use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, all 11 Suparank SEO tools are completely free. They work as slash commands in AI coding assistants including Claude Code, Cursor, OpenCode, Codex CLI, and Antigravity. No subscription or account required."
+      }
+    }
+  ]
+};
+---
+
+<Layout
+  title="Free SEO Audit Tools - On-Page Checker, Schema Generator & More | Suparank"
+  description="11 free SEO tools: on-page SEO checker, WCAG accessibility tester, schema markup generator, Core Web Vitals checker, robots.txt generator, meta tag generator, internal link checker. Works in Claude Code & Cursor."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(toolsCollectionSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+  <Header />
+  <main>
+    <!-- Hero -->
+    <section class="pt-24 md:pt-32 pb-16 section-divider">
+      <div class="container mx-auto px-6">
+        <div class="max-w-[1280px] mx-auto">
+          <div class="text-center max-w-3xl mx-auto">
+            <span class="inline-block px-3 py-1 text-sm font-medium bg-primary/10 text-primary mb-4">
+              Free SEO Audit Tools
+            </span>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+              Free SEO Tools for Developers
+            </h1>
+            <p class="text-xl text-muted-foreground mb-8">
+              11 free SEO audit tools: on-page checker, schema markup generator, Core Web Vitals tester, WCAG accessibility checker, robots.txt generator, and more.
+              Run as slash commands in Claude Code, Cursor, and other AI coding assistants.
+            </p>
+
+            <!-- Install Count -->
+            <p class="text-sm text-muted-foreground mb-6">
+              <span id="total-installs" class="font-semibold text-foreground">--</span> total installs
+            </p>
+
+            <!-- Install Command -->
+            <div class="bg-muted/50 border rounded-lg p-4 max-w-xl mx-auto mb-8">
+              <p class="text-sm text-muted-foreground mb-2">Install all tools with one command:</p>
+              <div class="flex items-center gap-2 bg-background rounded border px-4 py-3 font-mono text-sm">
+                <code class="flex-1 text-left">curl -fsSL https://suparank.io/install | bash</code>
+                <button
+                  class="text-muted-foreground hover:text-foreground transition-colors"
+                  onclick="navigator.clipboard.writeText('curl -fsSL https://suparank.io/install | bash')"
+                >
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Supported Platforms -->
+            <div class="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">
+              <span class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                Claude Code
+              </span>
+              <span class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                Cursor
+              </span>
+              <span class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                OpenCode
+              </span>
+              <span class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                Codex
+              </span>
+              <span class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                Antigravity
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools Grid - Connected bordered cells -->
+    <section class="pt-8 pb-20 section-divider">
+      <div class="max-w-[1280px] mx-auto border-x border-border relative">
+        <!-- Top border line -->
+        <div class="absolute -top-px left-0 right-0 h-px bg-border"></div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3">
+          {tools.map((tool, index) => {
+            const pos = index + 1;
+            const isLastInRow2 = pos % 2 === 0;
+            const isLastInRow3 = pos % 3 === 0;
+
+            // Build border classes:
+            // - sm: add border-r for items not at end of 2-col row
+            // - lg: add border-r for items not at end of 3-col row, remove sm rule if needed
+            let borderClass = "";
+            if (!isLastInRow2 && !isLastInRow3) {
+              // Needs border on both sm and lg
+              borderClass = "sm:border-r";
+            } else if (!isLastInRow2 && isLastInRow3) {
+              // Needs border on sm only, remove on lg
+              borderClass = "sm:border-r lg:border-r-0";
+            } else if (isLastInRow2 && !isLastInRow3) {
+              // No border on sm, add on lg
+              borderClass = "lg:border-r";
+            }
+            // If both are last in row, no border needed
+
+            return (
+              <a
+                href={`/tools/${tool.id}`}
+                class={`group block p-6 bg-card border-b border-border hover:bg-muted/30 transition-all duration-200 ${borderClass}`}
+              >
+                <div class="flex items-start justify-between mb-4">
+                  <i class={`${tool.icon} text-3xl text-primary`}></i>
+                  <span class="text-xs font-medium px-2 py-1 bg-muted text-muted-foreground">
+                    {tool.category}
+                  </span>
+                </div>
+                <h3 class="text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
+                  {tool.name}
+                </h3>
+                <p class="text-sm text-muted-foreground mb-4">
+                  {tool.description}
+                </p>
+                <div class="flex items-center justify-between">
+                  <code class="text-xs font-mono bg-muted px-2 py-1 border border-border">
+                    {tool.command}
+                  </code>
+                  <span class="text-xs text-muted-foreground">
+                    <span id={`count-${tool.command.replace('/', '')}`}>--</span> installs
+                  </span>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-20 section-divider bg-muted/30">
+      <div class="container mx-auto px-6">
+        <div class="max-w-[1280px] mx-auto">
+          <h2 class="text-3xl font-bold text-center mb-12">How It Works</h2>
+          <div class="grid md:grid-cols-3 gap-8">
+            <div class="text-center">
+              <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="text-xl font-bold text-primary">1</span>
+              </div>
+              <h3 class="font-semibold mb-2">Install</h3>
+              <p class="text-sm text-muted-foreground">
+                Run the install script in your terminal. It automatically detects your AI coding assistant.
+              </p>
+            </div>
+            <div class="text-center">
+              <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="text-xl font-bold text-primary">2</span>
+              </div>
+              <h3 class="font-semibold mb-2">Use</h3>
+              <p class="text-sm text-muted-foreground">
+                Type the slash command in your AI assistant, like <code class="bg-muted px-1 rounded">/suparank-onpage</code>
+              </p>
+            </div>
+            <div class="text-center">
+              <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="text-xl font-bold text-primary">3</span>
+              </div>
+              <h3 class="font-semibold mb-2">Get Results</h3>
+              <p class="text-sm text-muted-foreground">
+                The AI analyzes your code or page and provides a detailed report with fix recommendations.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ - SEO optimized based on search queries -->
+    <section class="py-20 section-divider">
+      <div class="container mx-auto px-6">
+        <div class="max-w-3xl mx-auto">
+          <h2 class="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+          <div class="space-y-6">
+            <div class="border p-6">
+              <h3 class="font-semibold mb-2">What is the best free SEO audit tool?</h3>
+              <p class="text-muted-foreground">
+                Suparank offers a comprehensive free SEO audit tool that combines on-page analysis, technical SEO checks, Core Web Vitals testing, accessibility scanning, and schema validation. Unlike web-based tools, it runs directly in your AI coding assistant (Claude Code, Cursor) for instant feedback while you code.
+              </p>
+            </div>
+            <div class="border p-6">
+              <h3 class="font-semibold mb-2">How do I check my website's Core Web Vitals?</h3>
+              <p class="text-muted-foreground">
+                Use Suparank's Core Web Vitals Checker by running <code class="bg-muted px-1">/suparank-cwv</code> in your AI assistant. It analyzes LCP (Largest Contentful Paint), INP (Interaction to Next Paint), and CLS (Cumulative Layout Shift) metrics with specific fix recommendations for each issue.
+              </p>
+            </div>
+            <div class="border p-6">
+              <h3 class="font-semibold mb-2">How do I generate JSON-LD schema markup?</h3>
+              <p class="text-muted-foreground">
+                Run <code class="bg-muted px-1">/suparank-schema</code> in your AI assistant. The Schema Markup Generator creates valid JSON-LD structured data for Article, FAQ, HowTo, Product, Organization, and other schema.org types. It validates existing markup and suggests missing schemas for Google rich results.
+              </p>
+            </div>
+            <div class="border p-6">
+              <h3 class="font-semibold mb-2">What is a robots.txt generator?</h3>
+              <p class="text-muted-foreground">
+                A robots.txt generator creates the robots.txt file that tells search engine crawlers which pages to index. Suparank's generator (<code class="bg-muted px-1">/suparank-robots</code>) includes AI crawler rules for GPTBot and Google-Extended, sitemap references, and framework-specific settings for Next.js, Astro, and WordPress.
+              </p>
+            </div>
+            <div class="border p-6">
+              <h3 class="font-semibold mb-2">How do I check website accessibility for WCAG compliance?</h3>
+              <p class="text-muted-foreground">
+                Use Suparank's Website Accessibility Checker (<code class="bg-muted px-1">/suparank-a11y</code>) to test WCAG 2.2 Level AA compliance. It checks color contrast ratios (4.5:1 minimum), alt text on images, keyboard navigation, ARIA attributes, form labels, and focus management with detailed fix recommendations.
+              </p>
+            </div>
+            <div class="border p-6">
+              <h3 class="font-semibold mb-2">Are these SEO tools free to use?</h3>
+              <p class="text-muted-foreground">
+                Yes, all 11 Suparank SEO tools are completely free. Install with <code class="bg-muted px-1">curl -fsSL https://suparank.io/install | bash</code>. They work as slash commands in AI coding assistants including Claude Code, Cursor, OpenCode, Codex CLI, and Antigravity. No subscription or account required.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-20 section-divider bg-primary/5">
+      <div class="container mx-auto px-6">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="text-3xl font-bold mb-4">Install Free SEO Audit Tools</h2>
+          <p class="text-muted-foreground mb-8">
+            Get all 11 SEO tools instantly: on-page checker, schema generator, Core Web Vitals tester, accessibility checker, and more. One command, no account required.
+          </p>
+          <div class="bg-background border p-4 max-w-xl mx-auto">
+            <code class="font-mono">curl -fsSL https://suparank.io/install | bash</code>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+
+  <!-- Install Counts Script -->
+  <script>
+    async function loadInstallCounts() {
+      try {
+        const res = await fetch('https://api.suparank.io/installs/counts')
+        if (!res.ok) return
+        const data = await res.json()
+
+        // Update total
+        const totalEl = document.getElementById('total-installs')
+        if (totalEl && data.total > 0) {
+          totalEl.textContent = data.total.toLocaleString()
+        }
+
+        // Update per-tool counts
+        if (data.tools && Array.isArray(data.tools)) {
+          data.tools.forEach(({ tool_name, install_count }) => {
+            const el = document.getElementById(`count-${tool_name}`)
+            if (el && install_count > 0) {
+              el.textContent = install_count.toLocaleString()
+            }
+          })
+        }
+      } catch (e) {
+        // Silent fail - counts are nice-to-have
+        console.debug('Failed to load install counts:', e)
+      }
+    }
+
+    // Load on page ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadInstallCounts)
+    } else {
+      loadInstallCounts()
+    }
+  </script>
+</Layout>

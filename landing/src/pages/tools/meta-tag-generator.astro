@@ -1,0 +1,325 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+const tool = {
+  id: 'meta-tag-generator',
+  name: 'Meta Tag Generator',
+  command: '/suparank-meta',
+  description: 'Free meta tag generator for SEO. Create optimized title tags, meta descriptions, Open Graph tags, Twitter Cards, and canonical URLs with live preview.',
+  longDescription: 'Generate SEO-optimized meta tags directly in your AI coding assistant. Create perfect title tags (50-60 chars), meta descriptions (120-160 chars with CTA), Open Graph tags for Facebook/LinkedIn, Twitter Cards for social sharing, and canonical URLs. Get SERP preview and social media preview.',
+  category: 'SEO',
+  icon: 'ph-duotone ph-tag'
+};
+
+const features = [
+  { name: 'Title Tag Optimization', description: 'Generate SEO-optimized titles with proper length (50-60 chars) and keyword placement' },
+  { name: 'Meta Description', description: 'Create compelling descriptions within 120-160 characters with call-to-action' },
+  { name: 'Open Graph Tags', description: 'Generate og:title, og:description, og:image, og:type for social sharing' },
+  { name: 'Twitter Cards', description: 'Create twitter:card, twitter:title, twitter:description, twitter:image tags' },
+  { name: 'Canonical URLs', description: 'Set proper canonical tags to avoid duplicate content issues' },
+  { name: 'Robots Directives', description: 'Configure index/noindex, follow/nofollow as needed' },
+  { name: 'SERP Preview', description: 'See how your page will appear in Google search results' },
+  { name: 'Social Preview', description: 'Preview Facebook, Twitter, and LinkedIn share cards' }
+];
+
+const faqs = [
+  {
+    question: 'What is the ideal title tag length for SEO?',
+    answer: 'The ideal title tag length is 50-60 characters. Google typically displays up to 60 characters in search results before truncating. Keep titles concise, place important keywords near the beginning, and include your brand name at the end. Our generator automatically checks length and warns if titles are too long or too short.'
+  },
+  {
+    question: 'How do I create Open Graph tags?',
+    answer: 'Open Graph tags are meta tags that control how your content appears when shared on Facebook, LinkedIn, and other social platforms. Key tags include og:title, og:description, og:image, og:url, and og:type. Our generator creates all required Open Graph tags with proper formatting and validates image dimensions (1200x630px recommended).'
+  },
+  {
+    question: 'What meta tags do I need for Twitter Cards?',
+    answer: 'Twitter Cards require: twitter:card (summary or summary_large_image), twitter:title, twitter:description, and twitter:image. You can also add twitter:site for your Twitter username. Our generator creates both basic Twitter Cards and falls back to Open Graph tags when Twitter-specific tags are missing.'
+  },
+  {
+    question: 'How long should my meta description be?',
+    answer: 'Meta descriptions should be 120-160 characters. Google typically shows up to 160 characters on desktop and 120 on mobile. Include your target keyword naturally, add a compelling call-to-action, and make it enticing to click. Our generator validates length and provides a live SERP preview to see how it will appear in search results.'
+  }
+];
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Suparank Meta Tags Generator",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Cross-platform",
+  "description": tool.longDescription,
+  "url": `https://suparank.io/tools/${tool.id}`,
+  "author": {
+    "@type": "Organization",
+    "name": "Suparank"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+};
+
+const exampleOutput = `═══════════════════════════════════════════════════════════════════
+SUPARANK META TAGS AUDIT
+═══════════════════════════════════════════════════════════════════
+File: src/pages/blog/seo-tips.astro
+Date: 2026-01-16
+
+───────────────────────────────────────────────────────────────────
+CURRENT META TAGS
+───────────────────────────────────────────────────────────────────
+
+Title: "SEO Tips for 2026 - Our Blog"
+  Status: ⚠ 28 chars (too short, aim for 50-60)
+  Issue: Missing primary keyword, generic branding
+
+Description: (none)
+  Status: ❌ Missing
+  Impact: Google will generate random snippet from page content
+
+Canonical: (none)
+  Status: ⚠ Missing
+  Impact: Potential duplicate content issues
+
+Open Graph: (none)
+  Status: ❌ Missing
+  Impact: Poor appearance when shared on Facebook/LinkedIn
+
+Twitter Cards: (none)
+  Status: ❌ Missing
+  Impact: Generic preview when shared on Twitter/X
+
+───────────────────────────────────────────────────────────────────
+GENERATED META TAGS
+───────────────────────────────────────────────────────────────────
+
+<!-- Primary Meta Tags -->
+<title>10 Essential SEO Tips for 2026 | Suparank Blog</title>
+<meta name="title" content="10 Essential SEO Tips for 2026 | Suparank Blog">
+<meta name="description" content="Learn the top 10 SEO strategies for 2026. From Core Web Vitals to AI optimization, discover what's working now. Free actionable tips inside.">
+
+<!-- Canonical -->
+<link rel="canonical" href="https://suparank.io/blog/seo-tips">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://suparank.io/blog/seo-tips">
+<meta property="og:title" content="10 Essential SEO Tips for 2026">
+<meta property="og:description" content="Learn the top 10 SEO strategies for 2026. From Core Web Vitals to AI optimization.">
+<meta property="og:image" content="https://suparank.io/og/seo-tips.jpg">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://suparank.io/blog/seo-tips">
+<meta property="twitter:title" content="10 Essential SEO Tips for 2026">
+<meta property="twitter:description" content="Learn the top 10 SEO strategies for 2026. From Core Web Vitals to AI optimization.">
+<meta property="twitter:image" content="https://suparank.io/og/seo-tips.jpg">
+
+───────────────────────────────────────────────────────────────────
+SERP PREVIEW
+───────────────────────────────────────────────────────────────────
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 10 Essential SEO Tips for 2026 | Suparank Blog                  │
+│ https://suparank.io › blog › seo-tips                          │
+│ Learn the top 10 SEO strategies for 2026. From Core Web         │
+│ Vitals to AI optimization, discover what's working now...       │
+└─────────────────────────────────────────────────────────────────┘
+
+───────────────────────────────────────────────────────────────────
+SOCIAL PREVIEW (Twitter/X)
+───────────────────────────────────────────────────────────────────
+
+┌─────────────────────────────────────────────────────────────────┐
+│ ┌─────────────────────────────────────────────────────────────┐ │
+│ │                    [og:image preview]                        │ │
+│ └─────────────────────────────────────────────────────────────┘ │
+│ suparank.io                                                     │
+│ 10 Essential SEO Tips for 2026                                  │
+│ Learn the top 10 SEO strategies for 2026. From Core Web...      │
+└─────────────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════`;
+---
+
+<Layout
+  title="Free Meta Tag Generator - Title, Description, Open Graph & Twitter Cards | Suparank"
+  description="Free meta tag generator for SEO. Create title tags, meta descriptions, Open Graph tags, Twitter Cards, canonical URLs. SERP preview included. Works in Claude Code & Cursor."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(softwareSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+  <Header />
+  <main>
+    <!-- Hero -->
+    <section class="pt-24 md:pt-32 pb-16 section-divider">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <a href="/tools" class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            All Tools
+          </a>
+
+          <div class="flex items-center gap-4 mb-6">
+            <i class="ph-duotone ph-tag text-5xl text-primary"></i>
+            <div>
+              <span class="text-xs font-medium px-2 py-1 bg-primary/10 text-primary rounded-full">
+                {tool.category}
+              </span>
+            </div>
+          </div>
+
+          <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+            {tool.name}
+          </h1>
+          <p class="text-xl text-muted-foreground mb-8">
+            {tool.longDescription}
+          </p>
+
+          <!-- Install Command -->
+          <div class="bg-muted/50 border p-4 mb-6">
+            <p class="text-sm text-muted-foreground mb-2">Install and use:</p>
+            <div class="space-y-2">
+              <div class="flex items-center gap-2 bg-background rounded border px-4 py-2 font-mono text-sm">
+                <code class="flex-1">curl -fsSL https://suparank.io/install | bash</code>
+              </div>
+              <div class="flex items-center gap-2 bg-background rounded border px-4 py-2 font-mono text-sm">
+                <code class="flex-1 text-primary">{tool.command}</code>
+              </div>
+            </div>
+          </div>
+
+          <!-- Supported Platforms -->
+          <div class="flex flex-wrap gap-4 text-sm text-muted-foreground">
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+              Claude Code
+            </span>
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+              Cursor
+            </span>
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+              OpenCode
+            </span>
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+              Codex
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="py-16 section-divider bg-muted/30">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-2xl font-bold mb-8">What It Generates</h2>
+          <div class="grid md:grid-cols-2 gap-4">
+            {features.map(feature => (
+              <div class="p-4 bg-background border">
+                <h3 class="font-semibold mb-1">{feature.name}</h3>
+                <p class="text-sm text-muted-foreground">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Example Output -->
+    <section class="py-16 section-divider">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-2xl font-bold mb-8">Example Output</h2>
+          <div class="bg-zinc-950 text-zinc-100 p-6 overflow-x-auto">
+            <pre class="text-sm font-mono whitespace-pre">{exampleOutput}</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-16 section-divider bg-muted/30">
+      <div class="container mx-auto px-6">
+        <div class="max-w-3xl mx-auto">
+          <h2 class="text-2xl font-bold mb-8">Frequently Asked Questions</h2>
+          <div class="space-y-4">
+            {faqs.map(faq => (
+              <div class="border p-6 bg-background">
+                <h3 class="font-semibold mb-2">{faq.question}</h3>
+                <p class="text-muted-foreground">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Tools -->
+    <section class="py-16 section-divider">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-2xl font-bold mb-8">Related Tools</h2>
+          <div class="grid md:grid-cols-3 gap-4">
+            <a href="/tools/on-page-seo-checker" class="p-4 border hover:border-primary/50 transition-colors">
+              <i class="ph-duotone ph-chart-bar text-2xl text-primary"></i>
+              <h3 class="font-semibold mt-2">On-Page SEO Checker</h3>
+              <p class="text-sm text-muted-foreground">Title, meta, headings</p>
+            </a>
+            <a href="/tools/schema-markup-generator" class="p-4 border hover:border-primary/50 transition-colors">
+              <i class="ph-duotone ph-brackets-curly text-2xl text-primary"></i>
+              <h3 class="font-semibold mt-2">Schema Markup Generator</h3>
+              <p class="text-sm text-muted-foreground">JSON-LD structured data</p>
+            </a>
+            <a href="/tools/robots-txt-generator" class="p-4 border hover:border-primary/50 transition-colors">
+              <i class="ph-duotone ph-file-code text-2xl text-primary"></i>
+              <h3 class="font-semibold mt-2">Robots.txt Generator</h3>
+              <p class="text-sm text-muted-foreground">AI crawler rules</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16 section-divider bg-primary/5">
+      <div class="container mx-auto px-6">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="text-2xl font-bold mb-4">Generate Perfect Meta Tags</h2>
+          <p class="text-muted-foreground mb-6">
+            Install Suparank tools and create optimized meta tags in seconds.
+          </p>
+          <div class="bg-background border p-4 max-w-xl mx-auto mb-4">
+            <code class="font-mono">curl -fsSL https://suparank.io/install | bash</code>
+          </div>
+          <p class="text-sm text-muted-foreground">
+            Then type <code class="bg-muted px-1 rounded">/suparank-meta</code> in your AI assistant
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

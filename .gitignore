@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.astro/
+
+# Environment
+.env
+.env.*
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Suparank local data (user-generated, not part of the repo)
+.claude/suparank-session.json
+.claude/suparank-content/
+
+# Indexing credentials
+scripts/google-indexing.json
+scripts/bing-indexnow.json
+scripts/.indexed-urls.json
+
+# Logs
+*.log
+npm-debug.log*

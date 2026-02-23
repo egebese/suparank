@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Page Not Found | Suparank"
+  description="The page you are looking for does not exist or has been moved."
+>
+  <Header />
+  <main class="pt-16 min-h-[60vh] flex items-center justify-center">
+    <div class="text-center px-6 py-16">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 mb-6">
+        <span class="text-sm font-medium text-primary uppercase tracking-wider">404 Error</span>
+      </div>
+
+      <!-- Heading -->
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground mb-4">
+        Page not found
+      </h1>
+
+      <!-- Description -->
+      <p class="text-base md:text-lg text-muted-foreground max-w-md mx-auto mb-8">
+        Sorry, the page you are looking for does not exist or has been moved.
+      </p>
+
+      <!-- Button -->
+      <a href="/" class="btn-primary">
+        Back to home
+      </a>
+    </div>
+  </main>
+  <Footer />
+</Layout>

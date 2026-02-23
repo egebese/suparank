@@ -1,0 +1,354 @@
+---
+const features = [
+  {
+    id: 'research',
+    label: 'Research',
+    title: 'Deep keyword research in seconds',
+    description: 'Discover high-intent keywords with search volume, difficulty scores, and SERP analysis. Build topical maps and content calendars that establish authority.',
+    tools: ['keyword_research', 'seo_strategy', 'topical_map', 'content_calendar'],
+    animation: [
+      { type: 'command', text: '$ suparank keyword_research', delay: 0 },
+      { type: 'output', text: '', delay: 600 },
+      { type: 'output', text: '<span class="text-muted-foreground">Analyzing:</span> "best crm for startups"', delay: 800 },
+      { type: 'output', text: '<span class="text-muted-foreground">Fetching SERP data...</span>', delay: 1200 },
+      { type: 'output', text: '', delay: 1600 },
+      { type: 'result', text: `<div class="space-y-1 text-xs">
+        <div class="flex justify-between"><span class="text-foreground">best crm for startups</span><span class="text-green-400">8,100/mo</span><span class="text-yellow-400">KD 42</span></div>
+        <div class="flex justify-between"><span class="text-foreground">crm software small business</span><span class="text-green-400">5,400/mo</span><span class="text-green-400">KD 28</span></div>
+        <div class="flex justify-between"><span class="text-foreground">free crm for startups</span><span class="text-green-400">3,200/mo</span><span class="text-green-400">KD 19</span></div>
+        <div class="flex justify-between"><span class="text-foreground">startup crm tools</span><span class="text-green-400">1,900/mo</span><span class="text-green-400">KD 15</span></div>
+      </div>`, delay: 2000 },
+      { type: 'output', text: '', delay: 3000 },
+      { type: 'output', text: '<span class="text-primary">Intent:</span> Commercial / Comparison', delay: 3200 },
+      { type: 'output', text: '<span class="text-primary">Suggested:</span> Listicle or comparison post', delay: 3500 },
+    ],
+  },
+  {
+    id: 'create',
+    label: 'Create',
+    title: 'Write SEO-optimized content with AI',
+    description: 'Generate long-form articles that rank. Our content engine understands your brand voice, target keywords, and creates structured content with proper headings, internal links, and schema.',
+    tools: ['content_write', 'image_prompt', 'generate_image', 'full_pipeline'],
+    animation: [
+      { type: 'command', text: '$ suparank content_write', delay: 0 },
+      { type: 'output', text: '', delay: 600 },
+      { type: 'output', text: '<span class="text-muted-foreground">Target:</span> "best crm for startups"', delay: 800 },
+      { type: 'output', text: '<span class="text-muted-foreground">Generating outline...</span>', delay: 1200 },
+      { type: 'output', text: '', delay: 1800 },
+      { type: 'result', text: `<div class="text-xs space-y-1">
+        <div class="text-foreground font-medium">10 Best CRM Software for Startups in 2025</div>
+        <div class="text-muted-foreground">H2: What to Look for in a Startup CRM</div>
+        <div class="text-muted-foreground">H2: Top 10 CRM Tools Compared</div>
+        <div class="text-muted-foreground">H2: Free vs Paid CRM Options</div>
+        <div class="text-muted-foreground">H2: How to Choose the Right CRM</div>
+      </div>`, delay: 2200 },
+      { type: 'output', text: '', delay: 3200 },
+      { type: 'progress', text: '', delay: 3400 },
+      { type: 'output', text: '', delay: 5500 },
+      { type: 'output', text: '<span class="text-green-400">✓</span> Generated 2,847 words', delay: 5700 },
+      { type: 'output', text: '<span class="text-green-400">✓</span> SEO Score: 94/100', delay: 6000 },
+    ],
+  },
+  {
+    id: 'optimize',
+    label: 'Optimize',
+    title: 'Optimize for search and AI engines',
+    description: 'Add internal links, generate schema markup, and optimize for both traditional search and AI engines like ChatGPT and Perplexity. E-E-A-T analysis included.',
+    tools: ['internal_links', 'schema_generate', 'geo_optimize', 'quality_check'],
+    animation: [
+      { type: 'command', text: '$ suparank quality_check', delay: 0 },
+      { type: 'output', text: '', delay: 600 },
+      { type: 'output', text: '<span class="text-muted-foreground">Analyzing content...</span>', delay: 800 },
+      { type: 'output', text: '', delay: 1400 },
+      { type: 'result', text: `<div class="text-xs space-y-2">
+        <div class="flex justify-between"><span>E-E-A-T Score</span><span class="text-green-400">87/100</span></div>
+        <div class="flex justify-between"><span>Readability</span><span class="text-green-400">Grade 8</span></div>
+        <div class="flex justify-between"><span>Keyword Density</span><span class="text-green-400">1.8%</span></div>
+        <div class="flex justify-between"><span>Internal Links</span><span class="text-yellow-400">3 (add 2 more)</span></div>
+      </div>`, delay: 1800 },
+      { type: 'output', text: '', delay: 3000 },
+      { type: 'output', text: '<span class="text-muted-foreground">Running GEO optimization...</span>', delay: 3200 },
+      { type: 'output', text: '<span class="text-green-400">✓</span> Added FAQ schema', delay: 3800 },
+      { type: 'output', text: '<span class="text-green-400">✓</span> Optimized for AI snippets', delay: 4200 },
+    ],
+  },
+  {
+    id: 'publish',
+    label: 'Publish',
+    title: 'Publish directly to your CMS',
+    description: 'Push content to WordPress or Ghost with one command. Images uploaded, categories set, meta descriptions added. Or send to Make/Zapier via webhooks.',
+    tools: ['publish_wordpress', 'publish_ghost', 'send_webhook', 'save_content'],
+    animation: [
+      { type: 'command', text: '$ suparank publish_wordpress', delay: 0 },
+      { type: 'output', text: '', delay: 600 },
+      { type: 'output', text: '<span class="text-muted-foreground">Connecting to WordPress...</span>', delay: 800 },
+      { type: 'output', text: '<span class="text-green-400">✓</span> Authenticated', delay: 1200 },
+      { type: 'output', text: '', delay: 1600 },
+      { type: 'output', text: '<span class="text-muted-foreground">Uploading featured image...</span>', delay: 1800 },
+      { type: 'output', text: '<span class="text-green-400">✓</span> Image uploaded', delay: 2400 },
+      { type: 'output', text: '', delay: 2800 },
+      { type: 'output', text: '<span class="text-muted-foreground">Creating post...</span>', delay: 3000 },
+      { type: 'output', text: '<span class="text-green-400">✓</span> Post created as draft', delay: 3600 },
+      { type: 'output', text: '', delay: 4000 },
+      { type: 'result', text: `<div class="text-xs">
+        <div class="text-foreground">Published to WordPress</div>
+        <div class="text-blue-400 underline mt-1">myblog.com/best-crm-startups</div>
+      </div>`, delay: 4200 },
+    ],
+  },
+];
+---
+
+<section id="features" class="pt-10 md:pt-16 section-divider relative">
+  <div class="container mx-auto px-6">
+    <!-- Section Header -->
+    <div class="text-center pb-10 md:pb-16 relative" id="features-header">
+      <p class="text-sm font-medium text-primary mb-3 md:mb-4">Features</p>
+      <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground tracking-tight mb-4 md:mb-6">
+        Everything you need for SEO content
+      </h2>
+      <p class="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
+        From keyword research to publishing, Suparank handles the entire content workflow inside your AI client.
+      </p>
+      <!-- Divider after header -->
+      <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-screen h-px bg-border"></div>
+    </div>
+  </div>
+
+  <!-- Feature Blocks with bordered cells -->
+  <div class="max-w-[1280px] mx-auto border-x border-border relative">
+    <!-- Top border line connecting to header divider -->
+    <div class="absolute -top-px left-1/2 -translate-x-1/2 w-screen h-px bg-border"></div>
+    {features.map((feature, index) => (
+      <div class={`grid lg:grid-cols-2 ${index % 2 === 1 ? 'lg:grid-flow-dense' : ''}`}>
+        <!-- Text Cell -->
+        <div class={`p-6 md:p-10 lg:p-12 flex flex-col justify-center border-b border-border ${index % 2 === 0 ? 'lg:border-r' : 'lg:col-start-2'}`}>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-xs font-medium text-primary uppercase tracking-wider">{feature.label}</span>
+            <span class="h-px flex-1 bg-border max-w-[100px]"></span>
+          </div>
+          <h3 class="text-xl sm:text-2xl md:text-3xl font-semibold text-foreground tracking-tight mb-3 md:mb-4">
+            {feature.title}
+          </h3>
+          <p class="text-sm md:text-base text-muted-foreground mb-4 md:mb-6 leading-relaxed">
+            {feature.description}
+          </p>
+          <div class="flex flex-wrap gap-2">
+            {feature.tools.map((tool) => (
+              <code class="text-xs px-2 py-1 bg-muted text-muted-foreground font-mono border border-border">
+                {tool}
+              </code>
+            ))}
+          </div>
+        </div>
+
+        <!-- Terminal Cell with background -->
+        <div class={`relative border-b border-border ${index % 2 === 1 ? 'lg:col-start-1 lg:border-r' : ''}`}>
+          <!-- Background image -->
+          <div class="absolute inset-0 bg-[url('/primary-bg.jpeg')] bg-cover bg-center" role="presentation"></div>
+          <!-- Terminal content -->
+          <div class="relative z-10 p-6 md:p-10 lg:p-12">
+            <div class="border border-border bg-card overflow-hidden">
+              <div class="flex items-center gap-2 px-4 py-3 bg-muted border-b border-border">
+                <div class="flex gap-1.5">
+                  <div class="w-3 h-3 bg-red-500/60"></div>
+                  <div class="w-3 h-3 bg-yellow-500/60"></div>
+                  <div class="w-3 h-3 bg-green-500/60"></div>
+                </div>
+                <span class="text-xs text-muted-foreground ml-2 font-mono">{feature.label.toLowerCase()}</span>
+              </div>
+              <div
+                class="p-3 md:p-4 font-mono text-xs md:text-sm h-[240px] md:h-[280px] overflow-y-auto feature-terminal"
+                data-feature={feature.id}
+                data-animation={JSON.stringify(feature.animation)}
+              >
+                <div class="terminal-content space-y-1.5"></div>
+                <span class="terminal-cursor inline-block w-1.5 h-4 bg-primary animate-blink ml-0.5 align-middle"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  .animate-blink {
+    animation: blink 1s infinite;
+  }
+
+  .feature-terminal::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .feature-terminal::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .feature-terminal::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 3px;
+  }
+</style>
+
+<script>
+  const terminals = document.querySelectorAll('.feature-terminal');
+
+  terminals.forEach((terminal) => {
+    const content = terminal.querySelector('.terminal-content');
+    const cursor = terminal.querySelector('.terminal-cursor');
+    const animation = JSON.parse(terminal.dataset.animation || '[]');
+
+    let isRunning = false;
+    let isPaused = false;
+    let isVisible = false;
+    let userScrolled = false;
+    let lastScrollTop = 0;
+    let hasPlayedOnce = false;
+
+    terminal.addEventListener('scroll', () => {
+      const isAtBottom = terminal.scrollHeight - terminal.scrollTop - terminal.clientHeight < 20;
+      if (terminal.scrollTop < lastScrollTop && !isAtBottom) {
+        userScrolled = true;
+      } else if (isAtBottom) {
+        userScrolled = false;
+      }
+      lastScrollTop = terminal.scrollTop;
+    });
+
+    function scrollToBottom() {
+      if (!userScrolled) {
+        terminal.scrollTop = terminal.scrollHeight;
+      }
+    }
+
+    function addLine(html, className = '') {
+      const line = document.createElement('div');
+      line.className = className;
+      line.innerHTML = html;
+      line.style.opacity = '0';
+      line.style.transform = 'translateY(4px)';
+      content.appendChild(line);
+
+      requestAnimationFrame(() => {
+        line.style.transition = 'opacity 0.2s, transform 0.2s';
+        line.style.opacity = '1';
+        line.style.transform = 'translateY(0)';
+      });
+
+      scrollToBottom();
+    }
+
+    function createProgress() {
+      const container = document.createElement('div');
+      container.innerHTML = `
+        <div class="flex items-center gap-2">
+          <div class="flex-1 h-1 bg-muted rounded-full overflow-hidden">
+            <div class="progress-bar h-full bg-primary rounded-full" style="width: 0%"></div>
+          </div>
+          <span class="progress-text text-xs text-muted-foreground">0%</span>
+        </div>
+      `;
+      content.appendChild(container);
+      scrollToBottom();
+
+      let progress = 0;
+      const interval = setInterval(() => {
+        if (!isVisible) {
+          clearInterval(interval);
+          return;
+        }
+        progress += Math.random() * 20 + 10;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+        }
+        const bar = container.querySelector('.progress-bar');
+        const text = container.querySelector('.progress-text');
+        if (bar && text) {
+          bar.style.width = `${progress}%`;
+          text.textContent = `${Math.round(progress)}%`;
+        }
+      }, 300);
+    }
+
+    async function typeText(element, text, speed = 40) {
+      for (let i = 0; i < text.length; i++) {
+        if (!isVisible) return;
+        element.innerHTML += text.charAt(i);
+        scrollToBottom();
+        await new Promise(r => setTimeout(r, speed));
+      }
+    }
+
+    async function runAnimation() {
+      if (isRunning || !isVisible) return;
+      isRunning = true;
+
+      for (let i = 0; i < animation.length; i++) {
+        if (!isVisible) {
+          isRunning = false;
+          return;
+        }
+
+        const line = animation[i];
+        const delay = i === 0 ? 0 : line.delay - animation[i - 1].delay;
+        await new Promise(r => setTimeout(r, delay));
+
+        if (!isVisible) {
+          isRunning = false;
+          return;
+        }
+
+        if (line.type === 'command') {
+          const cmdLine = document.createElement('div');
+          cmdLine.className = 'text-foreground';
+          content.appendChild(cmdLine);
+          await typeText(cmdLine, line.text, 35);
+        } else if (line.type === 'progress') {
+          createProgress();
+        } else if (line.type === 'result') {
+          addLine(line.text, 'bg-muted/30 border border-border p-2 my-2');
+        } else {
+          addLine(line.text);
+        }
+      }
+
+      hasPlayedOnce = true;
+
+      // Wait and restart (12 seconds)
+      await new Promise(r => setTimeout(r, 12000));
+
+      if (isVisible) {
+        content.innerHTML = '';
+        userScrolled = false;
+        isRunning = false;
+        runAnimation();
+      } else {
+        isRunning = false;
+      }
+    }
+
+    // Observe visibility
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        isVisible = entry.isIntersecting;
+
+        if (isVisible && !isRunning) {
+          // Reset and start fresh when coming into view
+          content.innerHTML = '';
+          userScrolled = false;
+          runAnimation();
+        }
+      });
+    }, { threshold: 0.3 });
+
+    observer.observe(terminal);
+  });
+</script>

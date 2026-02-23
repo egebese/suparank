@@ -1,0 +1,70 @@
+---
+const plan = {
+  name: 'Early Access',
+  price: 'Free',
+  period: '',
+  description: 'Full access during early access period',
+  features: [
+    'Unlimited generations',
+    'All 19 MCP tools',
+    'WordPress & Ghost publishing',
+    'Image generation',
+    'Priority support',
+  ],
+  cta: 'Get Started Free',
+  href: 'https://app.suparank.io/signup',
+};
+---
+
+<section id="pricing" class="pt-10 md:pt-16 pb-16 md:pb-32 bg-muted/30 section-divider">
+  <div class="container mx-auto px-6">
+    <div class="text-center pb-10 md:pb-16 mb-10 md:mb-16 relative">
+      <p class="text-sm font-medium text-primary mb-3 md:mb-4">Pricing</p>
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-foreground tracking-tight mb-3 md:mb-4">
+        Free during Early Access
+      </h2>
+      <p class="text-sm md:text-base text-muted-foreground">
+        Get full access to all features while we're in early access.
+      </p>
+      <!-- Divider after header -->
+      <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-screen h-px bg-border"></div>
+    </div>
+
+    <div class="max-w-sm mx-auto">
+      <div class="relative bg-card border border-primary p-6 md:p-8">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+          <span class="px-3 py-1 text-xs font-medium bg-primary text-white">
+            Early Access
+          </span>
+        </div>
+
+        <div class="mb-6 text-center">
+          <h3 class="font-medium text-foreground mb-1">{plan.name}</h3>
+          <p class="text-xs text-muted-foreground">{plan.description}</p>
+        </div>
+
+        <div class="mb-6 text-center">
+          <span class="text-4xl md:text-5xl font-semibold text-foreground tracking-tight">{plan.price}</span>
+        </div>
+
+        <ul class="space-y-3 mb-6">
+          {plan.features.map((feature) => (
+            <li class="flex items-start gap-2 text-sm">
+              <svg class="w-4 h-4 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-muted-foreground">{feature}</span>
+            </li>
+          ))}
+        </ul>
+
+        <a
+          href={plan.href}
+          class="block text-center py-3 px-4 text-sm font-medium bg-foreground text-background hover:bg-foreground/90 transition-colors"
+        >
+          {plan.cta}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

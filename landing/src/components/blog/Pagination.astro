@@ -1,0 +1,125 @@
+---
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  baseUrl: string;
+}
+
+const { currentPage, totalPages, baseUrl } = Astro.props;
+
+// Generate page URLs
+const getPageUrl = (page: number) => {
+  if (page === 1) {
+    return baseUrl;
+  }
+  // Remove trailing slash if present, then add /page/N
+  const base = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+  return `${base}/page/${page}`;
+};
+
+// Generate page numbers to display
+const getPageNumbers = () => {
+  const pages: (number | 'ellipsis')[] = [];
+  const showEllipsis = totalPages > 7;
+
+  if (!showEllipsis) {
+    // Show all pages
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(i);
+    }
+  } else {
+    // Always show first page
+    pages.push(1);
+
+    if (currentPage > 3) {
+      pages.push('ellipsis');
+    }
+
+    // Show pages around current
+    const start = Math.max(2, currentPage - 1);
+    const end = Math.min(totalPages - 1, currentPage + 1);
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    if (currentPage < totalPages - 2) {
+      pages.push('ellipsis');
+    }
+
+    // Always show last page
+    pages.push(totalPages);
+  }
+
+  return pages;
+};
+
+const pageNumbers = getPageNumbers();
+const hasPrev = currentPage > 1;
+const hasNext = currentPage < totalPages;
+---
+
+{totalPages > 1 && (
+  <nav class="flex items-center justify-center gap-1 mt-12" aria-label="Pagination">
+    <!-- Previous button -->
+    {hasPrev ? (
+      <a
+        href={getPageUrl(currentPage - 1)}
+        class="inline-flex items-center justify-center w-10 h-10 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors rounded-sm"
+        aria-label="Previous page"
+      >
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </a>
+    ) : (
+      <span class="inline-flex items-center justify-center w-10 h-10 text-muted-foreground/40">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </span>
+    )}
+
+    <!-- Page numbers -->
+    {pageNumbers.map((page) => (
+      page === 'ellipsis' ? (
+        <span class="inline-flex items-center justify-center w-10 h-10 text-muted-foreground">
+          ...
+        </span>
+      ) : page === currentPage ? (
+        <span
+          class="inline-flex items-center justify-center w-10 h-10 text-foreground bg-muted font-medium rounded-sm"
+          aria-current="page"
+        >
+          {page}
+        </span>
+      ) : (
+        <a
+          href={getPageUrl(page)}
+          class="inline-flex items-center justify-center w-10 h-10 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors rounded-sm"
+        >
+          {page}
+        </a>
+      )
+    ))}
+
+    <!-- Next button -->
+    {hasNext ? (
+      <a
+        href={getPageUrl(currentPage + 1)}
+        class="inline-flex items-center justify-center w-10 h-10 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors rounded-sm"
+        aria-label="Next page"
+      >
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    ) : (
+      <span class="inline-flex items-center justify-center w-10 h-10 text-muted-foreground/40">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </span>
+    )}
+  </nav>
+)}

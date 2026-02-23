@@ -1,0 +1,132 @@
+---
+import type { CategoryKey } from '../../content/config';
+import { categories } from '../../content/config';
+import { hashString } from '../../lib/blog';
+
+interface Props {
+  category: CategoryKey;
+  slug: string;
+  class?: string;
+}
+
+const { category, slug, class: className = '' } = Astro.props;
+
+const categoryColors = categories[category].color;
+const hash = hashString(slug);
+
+// Generate unique values based on hash
+const rotation = hash % 360;
+const scale = 1 + (hash % 50) / 100; // 1.0 to 1.5
+const translateX = (hash % 40) - 20; // -20 to 20
+const translateY = ((hash >> 8) % 40) - 20;
+const turbulenceFreq = 0.005 + (hash % 10) / 1000;
+const seed = hash % 1000;
+---
+
+<div class:list={['gradient-hero relative overflow-hidden', className]}>
+  <!-- SVG Aurora Effect -->
+  <svg
+    class="absolute inset-0 w-full h-full"
+    viewBox="0 0 400 300"
+    preserveAspectRatio="xMidYMid slice"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <filter id={`aurora-${slug}`} x="-50%" y="-50%" width="200%" height="200%">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency={turbulenceFreq}
+          numOctaves="3"
+          seed={seed}
+          result="noise"
+        />
+        <feGaussianBlur in="noise" stdDeviation="20" result="blur" />
+        <feColorMatrix
+          in="blur"
+          type="matrix"
+          values="1 0 0 0 0
+                  0 1 0 0 0
+                  0 0 1 0 0
+                  0 0 0 18 -7"
+          result="contrast"
+        />
+      </filter>
+      <linearGradient id={`grad-${slug}`} x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style={`stop-color:${categoryColors.from};stop-opacity:0.8`} />
+        <stop offset="100%" style={`stop-color:${categoryColors.to};stop-opacity:0.6`} />
+      </linearGradient>
+      <radialGradient id={`glow-${slug}`} cx="50%" cy="50%" r="50%">
+        <stop offset="0%" style={`stop-color:${categoryColors.from};stop-opacity:0.4`} />
+        <stop offset="100%" style="stop-color:transparent;stop-opacity:0" />
+      </radialGradient>
+    </defs>
+
+    <!-- Base dark background -->
+    <rect width="100%" height="100%" fill="#0A0A0A" />
+
+    <!-- Aurora blob 1 -->
+    <ellipse
+      cx="200"
+      cy="150"
+      rx="180"
+      ry="120"
+      fill={`url(#grad-${slug})`}
+      filter={`url(#aurora-${slug})`}
+      style={`transform: rotate(${rotation}deg) scale(${scale}) translate(${translateX}px, ${translateY}px); transform-origin: center;`}
+      opacity="0.7"
+    />
+
+    <!-- Aurora blob 2 (shifted) -->
+    <ellipse
+      cx="280"
+      cy="180"
+      rx="140"
+      ry="100"
+      fill={`url(#glow-${slug})`}
+      filter={`url(#aurora-${slug})`}
+      style={`transform: rotate(${rotation + 45}deg) scale(${scale * 0.8}) translate(${-translateX}px, ${-translateY}px); transform-origin: center;`}
+      opacity="0.5"
+    />
+
+    <!-- Subtle noise overlay -->
+    <rect
+      width="100%"
+      height="100%"
+      filter={`url(#aurora-${slug})`}
+      opacity="0.1"
+      fill={categoryColors.from}
+    />
+  </svg>
+
+  <!-- Content slot -->
+  <div class="relative z-10">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .gradient-hero {
+    background-color: #0A0A0A;
+  }
+
+  /* Subtle animation for the aurora effect */
+  @media (prefers-reduced-motion: no-preference) {
+    .gradient-hero svg ellipse {
+      animation: aurora-drift 20s ease-in-out infinite alternate;
+    }
+
+    .gradient-hero svg ellipse:nth-child(2) {
+      animation-delay: -10s;
+      animation-duration: 25s;
+    }
+  }
+
+  @keyframes aurora-drift {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      transform: translate(10px, 5px) scale(1.05);
+    }
+  }
+</style>

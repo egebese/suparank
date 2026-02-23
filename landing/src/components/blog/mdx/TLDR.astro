@@ -1,0 +1,47 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title = 'TL;DR' } = Astro.props;
+---
+
+<aside class="tldr my-6 p-4 bg-primary/5 border-l-4 border-primary/50 rounded-sm" role="note">
+  <div class="flex items-start gap-3">
+    <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+    </svg>
+    <div class="flex-1 min-w-0">
+      <p class="font-semibold text-foreground mb-1">{title}</p>
+      <div class="tldr-content text-muted-foreground text-sm leading-relaxed">
+        <slot />
+      </div>
+    </div>
+  </div>
+</aside>
+
+<style>
+  .tldr-content :global(ul) {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  .tldr-content :global(li) {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .tldr-content :global(li)::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: theme('colors.primary.DEFAULT');
+    font-weight: bold;
+  }
+
+  .tldr-content :global(li:last-child) {
+    margin-bottom: 0;
+  }
+</style>

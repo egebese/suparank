@@ -1,0 +1,64 @@
+---
+const faqs = [
+  {
+    question: 'What is Suparank?',
+    answer: 'Suparank is an MCP tool that adds SEO content creation capabilities to AI clients like Claude Desktop, Cursor, or ChatGPT. It provides 19 tools for keyword research, content writing, optimization, and publishing.',
+  },
+  {
+    question: 'How does MCP work?',
+    answer: 'MCP (Model Context Protocol) is a standard for connecting AI clients to external tools. Run `npx suparank` to start the server, configure it in your AI client, and the tools become available in your conversations.',
+  },
+  {
+    question: 'Is my data secure?',
+    answer: 'Yes. Your CMS credentials are stored only on your machine in ~/.suparank/credentials.json and never sent to our servers. Only your Suparank API key is used for authentication.',
+  },
+  {
+    question: 'Which AI clients work with Suparank?',
+    answer: 'Any MCP-compatible client works, including Claude Desktop, Cursor, and ChatGPT. The MCP protocol is open, so new clients are added regularly.',
+  },
+  {
+    question: 'Can I publish directly to my blog?',
+    answer: 'Yes. Suparank supports WordPress (via application passwords) and Ghost (via Admin API). You can also use webhooks for Make, Zapier, or custom integrations.',
+  },
+  {
+    question: 'What is GEO optimization?',
+    answer: 'GEO (Generative Engine Optimization) optimizes content for AI search engines like ChatGPT, Perplexity, and Google SGE, helping your content appear in AI-generated answers.',
+  },
+];
+---
+
+<section id="faq" class="pt-10 md:pt-16 pb-16 md:pb-32 section-divider">
+  <div class="container mx-auto px-6">
+    <div class="text-center pb-10 md:pb-16 relative">
+      <p class="text-sm font-medium text-primary mb-3 md:mb-4">FAQ</p>
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-foreground tracking-tight">
+        Questions & answers
+      </h2>
+      <!-- Divider after header -->
+      <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-screen h-px bg-border"></div>
+    </div>
+
+    <div class="max-w-3xl mx-auto">
+      {faqs.map((faq, index) => (
+        <details class="group border-b border-border last:border-b-0" open={index === 0}>
+          <summary class="flex items-center justify-between p-4 cursor-pointer list-none">
+            <span class="font-medium text-foreground text-sm pr-4">{faq.question}</span>
+            <svg
+              class="w-5 h-5 text-muted-foreground flex-shrink-0 transition-transform group-open:rotate-180"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="px-4 pb-4">
+            <p class="text-sm text-muted-foreground leading-relaxed">
+              {faq.answer}
+            </p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

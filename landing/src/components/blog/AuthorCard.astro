@@ -1,0 +1,50 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  author: CollectionEntry<'authors'>['data'];
+  showBio?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  href?: string;
+}
+
+const { author, showBio = false, size = 'sm', href } = Astro.props;
+
+const sizeConfig = {
+  sm: { avatar: 'w-8 h-8', text: 'text-sm', title: 'text-xs' },
+  md: { avatar: 'w-10 h-10', text: 'text-base', title: 'text-sm' },
+  lg: { avatar: 'w-14 h-14', text: 'text-lg', title: 'text-sm' },
+};
+
+const config = sizeConfig[size];
+const Wrapper = href ? 'a' : 'div';
+---
+
+<Wrapper
+  href={href}
+  class:list={[
+    'flex items-center gap-3',
+    href && 'hover:opacity-80 transition-opacity',
+  ]}
+>
+  <img
+    src={author.avatar}
+    alt={author.name}
+    class:list={['rounded-full object-cover bg-muted', config.avatar]}
+    loading="lazy"
+  />
+  <div class="flex flex-col">
+    <span class:list={['font-medium text-foreground', config.text]}>
+      {author.name}
+    </span>
+    <span class:list={['text-muted-foreground', config.title]}>
+      {author.title}
+    </span>
+  </div>
+</Wrapper>
+
+{showBio && (
+  <p class="mt-4 text-muted-foreground text-sm leading-relaxed">
+    {author.bio}
+  </p>
+)}

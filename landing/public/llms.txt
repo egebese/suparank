@@ -1,0 +1,65 @@
+# Suparank
+
+> AI-powered SEO content automation. Write, optimize, and publish blog posts directly from Claude, ChatGPT, or Cursor using Model Context Protocol (MCP).
+
+## What We Do
+
+Suparank is an MCP tool that connects AI assistants to SEO content workflows. Run `npx suparank` to research keywords, write optimized articles, and publish to WordPress or Ghost—all from your AI chat.
+
+## Quick Links
+
+- [Homepage](https://suparank.io): Features, pricing, and getting started
+- [Blog](https://suparank.io/blog): 31 SEO guides and tutorials
+- [Dashboard](https://app.suparank.io): Project management
+- [Documentation](https://suparank.io/blog/mcp-tools-automated-blog-writing-setup-guide): Setup guide
+
+## Key Features
+
+- 19 MCP tools for end-to-end content workflows
+- Direct WordPress and Ghost CMS publishing
+- Keyword research and topical authority planning
+- Brand voice training for consistent content
+- Image generation with fal.ai integration
+
+## Free SEO Tools
+
+11 free SEO audit tools that run in Claude Code, Cursor, and AI coding assistants.
+
+- [All Tools](https://suparank.io/tools): Complete tools directory
+- [Free SEO Audit](https://suparank.io/tools/full-seo-audit): Comprehensive 50+ point site analysis
+- [On-Page SEO Checker](https://suparank.io/tools/on-page-seo-checker): Title tags, meta, headings
+- [Accessibility Checker](https://suparank.io/tools/accessibility-checker): WCAG 2.2 compliance
+- [LLMs.txt Generator](https://suparank.io/tools/llms-txt-generator): AI-friendly content for LLM crawlers
+- [Robots.txt Generator](https://suparank.io/tools/robots-txt-generator): Search crawler rules
+- [Technical SEO Audit](https://suparank.io/tools/technical-seo-audit): Crawlability & indexing
+- [Schema Generator](https://suparank.io/tools/schema-markup-generator): JSON-LD structured data
+- [Core Web Vitals](https://suparank.io/tools/core-web-vitals-checker): LCP, INP, CLS metrics
+- [Meta Tag Generator](https://suparank.io/tools/meta-tag-generator): Title, OG, Twitter Cards
+- [Internal Link Checker](https://suparank.io/tools/internal-link-checker): Link structure analysis
+- [Alt Text Checker](https://suparank.io/tools/alt-text-checker): Image accessibility
+
+**Install:** `curl -fsSL https://suparank.io/install | bash`
+
+## For Developers
+
+- Install: `npx suparank setup`
+- GitHub: https://github.com/suparank
+- MCP Package: https://github.com/Suparank/Suparank-MCP
+- WordPress Plugin: https://github.com/Suparank/Suparank-WordPress-Plugin
+
+## Contact
+
+- Website: https://suparank.io
+- Twitter: https://x.com/suparankHQ
+- Email: hello@suparank.io
+
+## Founder
+
+- **Ege Bese** - Founder
+- Twitter: https://x.com/egebese
+- LinkedIn: https://www.linkedin.com/in/egebese
+- YouTube: https://www.youtube.com/@egebese
+
+## Optional
+
+- [Full content map](https://suparank.io/llms-full.txt): Comprehensive semantic summaries of all pages and articles

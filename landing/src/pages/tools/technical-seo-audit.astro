@@ -1,0 +1,259 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+const tool = {
+  id: 'technical-seo-audit',
+  name: 'Technical SEO Audit Tool',
+  command: '/suparank-technical',
+  description: 'Free technical SEO audit covering crawlability, indexation, HTTPS security, redirect chains, canonical tags, and structured data validation.',
+  longDescription: 'Run a comprehensive technical SEO audit directly in your AI coding assistant. Check crawlability and indexation issues, validate HTTPS security and SSL certificates, detect redirect chains (301/302), verify canonical URL implementation, test robots.txt and meta robots directives, and audit structured data for errors.',
+  category: 'Technical',
+  icon: 'ph-duotone ph-gear-six'
+};
+
+const features = [
+  { name: 'Crawlability', description: 'robots.txt, XML sitemap, canonical tags, noindex, meta robots' },
+  { name: 'Site Architecture', description: 'Crawl depth, orphan pages, URL structure, breadcrumbs, pagination' },
+  { name: 'HTTP & Security', description: 'HTTPS, mixed content, redirect chains, 404s, server errors' },
+  { name: 'Core Web Vitals', description: 'LCP, INP, CLS analysis with 2025 thresholds' },
+  { name: 'Structured Data', description: 'JSON-LD validation, required properties, rich results eligibility' },
+  { name: 'Mobile & Performance', description: 'Viewport, tap targets, font size, page weight' },
+  { name: 'International SEO', description: 'hreflang validation, bidirectional links, x-default' },
+  { name: 'Content Quality', description: 'Duplicate content, thin content, missing titles/meta' }
+];
+
+const faqs = [
+  {
+    question: 'What is a technical SEO audit?',
+    answer: 'A technical SEO audit is a comprehensive check of your website\'s backend infrastructure and code to identify issues that prevent search engines from properly crawling, indexing, and ranking your site. It covers crawlability (robots.txt, sitemaps), indexation (canonical tags, noindex), HTTPS security, redirect chains, page speed, mobile-friendliness, and structured data implementation.'
+  },
+  {
+    question: 'How do I check if my site is being indexed?',
+    answer: 'Use Google Search Console to see which pages are indexed. Check the Coverage report for indexation status, look for "Excluded" pages with reasons like "Noindex tag", "Blocked by robots.txt", or "Duplicate content". You can also use site:yourdomain.com in Google search to see indexed pages. This tool helps identify indexation blockers before they reach search engines.'
+  },
+  {
+    question: 'What are redirect chains and how do they affect SEO?',
+    answer: 'Redirect chains occur when a URL redirects to another URL that redirects again (e.g., /old → /temp → /final). Each redirect adds latency and wastes crawl budget. Search engines may stop following after 3-5 hops, preventing final page indexation. Fix by updating to direct redirects (/old → /final). Chains also slow down user experience and can dilute link equity.'
+  },
+  {
+    question: 'How do I fix canonical tag issues?',
+    answer: 'Common canonical tag issues include: missing canonicals (add <link rel="canonical">), self-referencing wrong URL (ensure it points to preferred version), conflicting canonicals (remove duplicates), HTTPS/HTTP mismatches (use HTTPS canonical), and canonical chains (point directly to final URL). Always use absolute URLs, ensure the canonical page returns 200 status, and verify it matches your sitemap entries.'
+  }
+];
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Suparank Technical SEO Audit",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Cross-platform",
+  "description": tool.longDescription,
+  "url": `https://suparank.io/tools/${tool.id}`,
+  "author": { "@type": "Organization", "name": "Suparank" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": { "@type": "Answer", "text": faq.answer }
+  }))
+};
+
+const exampleOutput = `═══════════════════════════════════════════════════════════════════
+SUPARANK TECHNICAL SEO AUDIT
+═══════════════════════════════════════════════════════════════════
+Project: my-website
+Framework: Next.js
+Date: 2026-01-16
+
+HEALTH SCORE: 82/100
+
+───────────────────────────────────────────────────────────────────
+CRAWL SUMMARY
+───────────────────────────────────────────────────────────────────
+
+Pages Analyzed: 47
+├── Indexable: 42
+├── Noindex: 2
+├── Blocked by robots.txt: 3
+└── Errors: 0
+
+CORE WEB VITALS (Estimated)
+───────────────────────────────────────────────────────────────────
+LCP: ~2.1s ✓ Good (target ≤2.5s)
+INP: ~180ms ✓ Good (target ≤200ms)
+CLS: ~0.15 ⚠ Needs Work (target ≤0.1)
+
+───────────────────────────────────────────────────────────────────
+CRITICAL ISSUES (1)
+───────────────────────────────────────────────────────────────────
+
+[CRAWL] Sitemap missing 12 indexable pages
+  Missing: /blog/post-1, /blog/post-2, /about, ...
+  Fix: Regenerate sitemap or check generation logic
+  Impact: Google may not discover all your pages
+
+───────────────────────────────────────────────────────────────────
+WARNINGS (4)
+───────────────────────────────────────────────────────────────────
+
+[PERFORMANCE] Large hero image causing CLS
+  File: public/hero.jpg (2.4MB)
+  Fix: Add width/height, compress to <200KB, use WebP
+  Impact: Layout shift when image loads
+
+[REDIRECT] Chain detected (3 hops)
+  /old → /temp → /final
+  Fix: Update to direct /old → /final
+  Impact: Wasted crawl budget, slower redirects
+
+───────────────────────────────────────────────────────────────────
+PASSED CHECKS (38)
+───────────────────────────────────────────────────────────────────
+
+✓ [Crawl] robots.txt valid
+✓ [Security] HTTPS enabled
+✓ [Mobile] Viewport meta configured
+✓ [Schema] JSON-LD valid syntax
+...
+
+═══════════════════════════════════════════════════════════════════`;
+---
+
+<Layout
+  title="Free Technical SEO Audit Tool - Crawlability, Indexing & HTTPS Check | Suparank"
+  description="Free technical SEO audit covering crawlability, indexation, HTTPS, redirect chains, canonical tags. Find and fix technical SEO issues. Works in Claude Code & Cursor."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(softwareSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+  <Header />
+  <main>
+    <!-- Hero -->
+    <section class="pt-24 md:pt-32 pb-16 section-divider">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <a href="/tools" class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            All Tools
+          </a>
+
+          <div class="flex items-center gap-4 mb-6">
+            <i class={`${tool.icon} text-5xl text-primary`}></i>
+            <span class="text-xs font-medium px-2 py-1 bg-primary/10 text-primary rounded-full">{tool.category}</span>
+          </div>
+
+          <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">{tool.name}</h1>
+          <p class="text-xl text-muted-foreground mb-8">{tool.longDescription}</p>
+
+          <div class="bg-muted/50 border p-4 mb-6">
+            <p class="text-sm text-muted-foreground mb-2">Install and use:</p>
+            <div class="space-y-2">
+              <div class="flex items-center gap-2 bg-background rounded border px-4 py-2 font-mono text-sm">
+                <code class="flex-1">curl -fsSL https://suparank.io/install | bash</code>
+              </div>
+              <div class="flex items-center gap-2 bg-background rounded border px-4 py-2 font-mono text-sm">
+                <code class="flex-1 text-primary">{tool.command}</code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="py-16 section-divider bg-muted/30">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-2xl font-bold mb-8">What It Checks</h2>
+          <div class="grid md:grid-cols-2 gap-4">
+            {features.map(feature => (
+              <div class="p-4 bg-background border">
+                <h3 class="font-semibold mb-1">{feature.name}</h3>
+                <p class="text-sm text-muted-foreground">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Example Output -->
+    <section class="py-16 section-divider">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-2xl font-bold mb-8">Example Output</h2>
+          <div class="bg-zinc-950 text-zinc-100 p-6 overflow-x-auto">
+            <pre class="text-sm font-mono whitespace-pre">{exampleOutput}</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-16 section-divider bg-muted/30">
+      <div class="container mx-auto px-6">
+        <div class="max-w-3xl mx-auto">
+          <h2 class="text-2xl font-bold mb-8">Frequently Asked Questions</h2>
+          <div class="space-y-4">
+            {faqs.map(faq => (
+              <div class="border p-6 bg-background">
+                <h3 class="font-semibold mb-2">{faq.question}</h3>
+                <p class="text-muted-foreground">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Tools -->
+    <section class="py-16 section-divider">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-2xl font-bold mb-8">Related Tools</h2>
+          <div class="grid md:grid-cols-3 gap-4">
+            <a href="/tools/full-seo-audit" class="p-4 border hover:border-primary/50 transition-colors">
+              <i class="ph-duotone ph-crosshair text-2xl text-primary"></i>
+              <h3 class="font-semibold mt-2">Free SEO Audit Tool</h3>
+              <p class="text-sm text-muted-foreground">Complete website audit</p>
+            </a>
+            <a href="/tools/robots-txt-generator" class="p-4 border hover:border-primary/50 transition-colors">
+              <i class="ph-duotone ph-file-code text-2xl text-primary"></i>
+              <h3 class="font-semibold mt-2">Robots.txt Generator</h3>
+              <p class="text-sm text-muted-foreground">AI crawler rules</p>
+            </a>
+            <a href="/tools/core-web-vitals-checker" class="p-4 border hover:border-primary/50 transition-colors">
+              <i class="ph-duotone ph-lightning text-2xl text-primary"></i>
+              <h3 class="font-semibold mt-2">Core Web Vitals Checker</h3>
+              <p class="text-sm text-muted-foreground">LCP, INP, CLS metrics</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16 section-divider bg-primary/5">
+      <div class="container mx-auto px-6">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="text-2xl font-bold mb-4">Run Your Technical Audit</h2>
+          <p class="text-muted-foreground mb-6">Install and analyze your site's technical SEO in seconds.</p>
+          <div class="bg-background border p-4 max-w-xl mx-auto">
+            <code class="font-mono">curl -fsSL https://suparank.io/install | bash</code>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

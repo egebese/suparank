@@ -1,0 +1,188 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Heading {
+  depth: number;
+  text: string;
+  slug: string;
+}
+
+interface Props {
+  author: CollectionEntry<'authors'>['data'];
+  headings: Heading[];
+  shareUrl: string;
+  shareTitle: string;
+}
+
+const { author, headings, shareUrl, shareTitle } = Astro.props;
+
+// Filter to only h2 (main sections)
+const filteredHeadings = headings.filter((h) => h.depth === 2);
+
+// Encode for sharing
+const encodedUrl = encodeURIComponent(shareUrl);
+const encodedTitle = encodeURIComponent(shareTitle);
+---
+
+<aside class="blog-sidebar hidden lg:block border-l border-border">
+  <div class="sticky top-24 pt-4">
+    <!-- Written by -->
+    <div class="px-6 pb-6">
+      <h4 class="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-4">Written by</h4>
+      <a href={`/blog/authors/${author.slug}`} class="flex items-center gap-3 group">
+        <img
+          src={author.avatar}
+          alt={author.name}
+          class="w-10 h-10 rounded-full object-cover bg-muted"
+          loading="lazy"
+        />
+        <div>
+          <span class="block text-sm font-semibold text-foreground uppercase tracking-wide group-hover:text-primary transition-colors">
+            {author.name}
+          </span>
+          <span class="block text-xs text-muted-foreground uppercase tracking-wider">
+            {author.title}
+          </span>
+        </div>
+      </a>
+    </div>
+    <div class="border-b border-border"></div>
+
+    <!-- Share this article -->
+    <div class="px-6 py-6">
+      <h4 class="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Share this article</h4>
+      <p class="text-xs text-muted-foreground mb-4">
+        Share this post with your team or anyone who'd benefit from these insights.
+      </p>
+      <div class="flex items-center gap-2">
+        <!-- X/Twitter -->
+        <a
+          href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-9 h-9 flex items-center justify-center rounded-sm border border-border bg-background hover:bg-muted transition-colors"
+          aria-label="Share on X"
+        >
+          <svg class="w-4 h-4 text-foreground" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+          </svg>
+        </a>
+        <!-- Facebook -->
+        <a
+          href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-9 h-9 flex items-center justify-center rounded-sm border border-border bg-background hover:bg-muted transition-colors"
+          aria-label="Share on Facebook"
+        >
+          <svg class="w-4 h-4 text-foreground" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+        </a>
+        <!-- LinkedIn -->
+        <a
+          href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-9 h-9 flex items-center justify-center rounded-sm border border-border bg-background hover:bg-muted transition-colors"
+          aria-label="Share on LinkedIn"
+        >
+          <svg class="w-4 h-4 text-foreground" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+        </a>
+        <!-- Copy Link -->
+        <button
+          id="copy-link-btn"
+          class="w-9 h-9 flex items-center justify-center rounded-sm border border-border bg-background hover:bg-muted transition-colors"
+          aria-label="Copy link"
+          data-url={shareUrl}
+        >
+          <svg class="w-4 h-4 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="border-b border-border"></div>
+
+    <!-- Table of Contents - Collapsible -->
+    {filteredHeadings.length > 0 && (
+      <details class="toc-details group" open>
+        <summary class="flex items-center justify-between cursor-pointer text-xs font-medium text-muted-foreground uppercase tracking-wider px-6 py-4 list-none hover:bg-muted/50 transition-colors">
+          <span>On this page</span>
+          <svg class="w-4 h-4 text-muted-foreground transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <nav aria-label="Table of contents" class="px-6 pb-4">
+          <ul class="space-y-1">
+            {filteredHeadings.map((heading) => (
+              <li>
+                <a
+                  href={`#${heading.slug}`}
+                  class="toc-link block text-sm text-muted-foreground hover:text-foreground transition-colors py-1.5 px-3 rounded-sm hover:bg-muted"
+                  data-slug={heading.slug}
+                >
+                  {heading.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </details>
+    )}
+  </div>
+</aside>
+
+<script>
+  // Copy link functionality
+  const copyBtn = document.getElementById('copy-link-btn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', async () => {
+      const url = copyBtn.getAttribute('data-url');
+      if (url) {
+        await navigator.clipboard.writeText(url);
+        // Brief visual feedback
+        copyBtn.classList.add('bg-primary/20');
+        setTimeout(() => copyBtn.classList.remove('bg-primary/20'), 1000);
+      }
+    });
+  }
+
+  // Highlight active ToC item on scroll
+  document.addEventListener('DOMContentLoaded', () => {
+    const tocLinks = document.querySelectorAll('.toc-link');
+    const headings = Array.from(tocLinks).map((link) => {
+      const slug = link.getAttribute('data-slug');
+      return document.getElementById(slug!);
+    }).filter(Boolean);
+
+    if (headings.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            tocLinks.forEach((link) => link.classList.remove('text-foreground', 'bg-muted'));
+            const activeLink = document.querySelector(`.toc-link[data-slug="${entry.target.id}"]`);
+            if (activeLink) {
+              activeLink.classList.add('text-foreground', 'bg-muted');
+            }
+          }
+        });
+      },
+      { rootMargin: '-80px 0px -80% 0px', threshold: 0 }
+    );
+
+    headings.forEach((heading) => {
+      if (heading) observer.observe(heading);
+    });
+  });
+</script>
+
+<style>
+  .toc-details summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

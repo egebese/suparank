@@ -1,0 +1,101 @@
+---
+interface Props {
+  caption?: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<div class="table-wrapper my-6 relative">
+  <!-- Fade indicators for scroll -->
+  <div class="scroll-fade-left" aria-hidden="true"></div>
+  <div class="scroll-fade-right" aria-hidden="true"></div>
+
+  <div class="table-scroll overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+    <table class="w-full text-sm">
+      <slot />
+    </table>
+    {caption && (
+      <p class="text-xs text-muted-foreground mt-2 text-center">{caption}</p>
+    )}
+  </div>
+</div>
+
+<style>
+  .table-wrapper {
+    position: relative;
+  }
+
+  .table-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.border') transparent;
+  }
+
+  .table-scroll::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .table-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .table-scroll::-webkit-scrollbar-thumb {
+    background: theme('colors.border');
+    border-radius: 3px;
+  }
+
+  /* Table styling */
+  table {
+    border-collapse: collapse;
+    min-width: 100%;
+  }
+
+  :global(.table-wrapper th) {
+    text-align: left;
+    font-weight: 600;
+    color: theme('colors.foreground');
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid theme('colors.border');
+    white-space: nowrap;
+  }
+
+  :global(.table-wrapper td) {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid theme('colors.border');
+    color: theme('colors.muted.foreground');
+  }
+
+  :global(.table-wrapper tr:last-child td) {
+    border-bottom: none;
+  }
+
+  :global(.table-wrapper tbody tr:hover) {
+    background: theme('colors.muted.DEFAULT');
+  }
+
+  /* Scroll fade indicators */
+  .scroll-fade-left,
+  .scroll-fade-right {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2rem;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  @media (max-width: 768px) {
+    .scroll-fade-left {
+      display: block;
+      left: 0;
+      background: linear-gradient(to right, theme('colors.background'), transparent);
+    }
+
+    .scroll-fade-right {
+      display: block;
+      right: 0;
+      background: linear-gradient(to left, theme('colors.background'), transparent);
+    }
+  }
+</style>
