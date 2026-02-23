@@ -16,6 +16,12 @@ Suparank is a set of **Claude Code skills** that turn Claude into a full SEO con
 ## Install
 
 ```bash
+npx skills add egebese/suparank --global --all
+```
+
+Or manually with git:
+
+```bash
 mkdir -p ~/.claude/skills
 git clone https://github.com/egebese/suparank.git ~/.claude/skills/suparank
 ```
