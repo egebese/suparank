@@ -1,0 +1,100 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import LogoCloud from '../components/LogoCloud.astro';
+import Features from '../components/Features.astro';
+// import TestimonialsGrid from '../components/TestimonialsGrid.astro'; // TODO: Uncomment when testimonials are available
+import OpenSource from '../components/Pricing.astro';
+import FAQ from '../components/FAQWrapper.astro';
+import CTA from '../components/CTA.astro';
+import Footer from '../components/Footer.astro';
+
+// Schema.org structured data
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Suparank",
+  "url": "https://suparank.io",
+  "logo": "https://suparank.io/branding/logo-light.png",
+  "description": "Open-source AI SEO skills for Claude Code. Research, write, optimize, and publish blog posts directly from your terminal.",
+  "founder": {
+    "@type": "Person",
+    "name": "Ege Bese",
+    "url": "https://x.com/egebese"
+  },
+  "sameAs": [
+    "https://x.com/egebese",
+    "https://github.com/egebese/suparank",
+    "https://www.linkedin.com/in/egebese"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "hello@suparank.io",
+    "contactType": "customer support"
+  }
+};
+
+const webSiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Suparank",
+  "url": "https://suparank.io",
+  "description": "Open-source AI SEO skills for Claude Code. Research keywords, write optimized articles, and publish to WordPress or Ghost directly from your terminal.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Suparank"
+  }
+};
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Suparank",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Cross-platform (via npm)",
+  "description": "Claude Code Skills for AI-powered SEO content workflows. Research keywords, write optimized articles, and publish to WordPress or Ghost.",
+  "url": "https://suparank.io",
+  "downloadUrl": "https://github.com/egebese/suparank",
+  "softwareVersion": "2.0.0",
+  "author": {
+    "@type": "Organization",
+    "name": "Suparank"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "description": "Free and open source"
+  },
+  "featureList": [
+    "/suparank - Full SEO audit",
+    "/suparank/setup - Project configuration wizard",
+    "/suparank/pipeline - End-to-end content pipeline",
+    "/suparank/research - Keyword research and SEO strategy",
+    "/suparank/create - AI content creation",
+    "/suparank/optimize - GEO optimization and quality checks",
+    "/suparank/publish - WordPress and Ghost publishing",
+    "/suparank/session - Session and content management"
+  ]
+};
+---
+
+<Layout title="Suparank - Open-source AI SEO Skills for Claude Code">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(webSiteSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(softwareSchema)} />
+  </Fragment>
+  <Header />
+  <main>
+    <Hero />
+    <LogoCloud />
+    <Features />
+    <!-- <TestimonialsGrid /> -->
+    <OpenSource />
+    <FAQ />
+    <CTA />
+  </main>
+  <Footer />
+</Layout>

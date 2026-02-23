@@ -1,0 +1,85 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Suparank - Free, open-source AI-powered SEO content creation skills for Claude Code. Generate, optimize, and publish blog posts.' } = Astro.props;
+
+const siteUrl = 'https://suparank.io';
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/branding/favicon.png" />
+    <link rel="apple-touch-icon" href="/branding/favicon.png" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://suparank.io/og.jpeg" />
+    <meta property="og:image:width" content="2560" />
+    <meta property="og:image:height" content="1440" />
+    <meta property="og:site_name" content="Suparank" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@egebese" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://suparank.io/og.jpeg" />
+
+    <title>{title}</title>
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+    <!-- React Grab - Development only -->
+    <script>
+      if (import.meta.env.DEV) {
+        import('react-grab');
+      }
+    </script>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5PSDZS7SD"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-F5PSDZS7SD');
+    </script>
+
+    <!-- Additional head content (schemas, etc.) -->
+    <slot name="head" />
+  </head>
+  <body class="min-h-screen">
+    <!-- Grid lines overlay - at container edges, content has inner padding -->
+    <div class="fixed inset-0 pointer-events-none z-50" aria-hidden="true">
+      <div class="h-full mx-auto max-w-[1280px] relative">
+        <!-- Left outer line -->
+        <div class="absolute left-0 top-0 bottom-0 w-px bg-border"></div>
+        <!-- Right outer line -->
+        <div class="absolute right-0 top-0 bottom-0 w-px bg-border"></div>
+      </div>
+    </div>
+    <div class="relative z-10">
+      <slot />
+    </div>
+  </body>
+</html>
+
+<style is:global>
+  @import '../styles/global.css';
+</style>

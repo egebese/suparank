@@ -1,0 +1,306 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+const tool = {
+  id: 'schema-markup-generator',
+  name: 'Schema Markup Generator',
+  command: '/suparank-schema',
+  description: 'Free JSON-LD schema generator and validator. Create Article, FAQ, HowTo, Product, and Organization structured data for Google rich results.',
+  longDescription: 'Generate valid JSON-LD schema markup directly in your AI coding assistant. Create structured data for Article, FAQ, HowTo, Product, Organization, LocalBusiness, Recipe, Event, and more. Validate existing schema against schema.org standards, preview rich results eligibility, and get recommendations for missing markup types.',
+  category: 'Technical',
+  icon: 'ph-duotone ph-brackets-curly'
+};
+
+const features = [
+  { name: 'Schema Validation', description: 'Check existing JSON-LD, Microdata, and RDFa for errors and warnings' },
+  { name: 'Missing Schema Detection', description: 'Identify which schema types would benefit your page content' },
+  { name: 'JSON-LD Generation', description: 'Auto-generate valid JSON-LD based on your page content' },
+  { name: 'Rich Results Preview', description: 'See how your schema will appear in Google search results' },
+  { name: 'Multiple Schema Types', description: 'Article, Product, FAQ, HowTo, LocalBusiness, Recipe, Event, and more' },
+  { name: 'Google Compliance', description: 'Validate against Google\'s structured data guidelines' },
+  { name: 'Nesting Support', description: 'Handle complex nested schemas like Product with Reviews' },
+  { name: 'Required Fields Check', description: 'Ensure all required and recommended properties are present' }
+];
+
+const faqs = [
+  {
+    question: 'What is JSON-LD schema markup?',
+    answer: 'JSON-LD (JavaScript Object Notation for Linked Data) is a format for adding structured data to web pages. It uses a <script type="application/ld+json"> tag in your HTML to tell search engines what your content represents - like articles, products, FAQs, or events. Google reads this data to create rich results with enhanced visuals in search.'
+  },
+  {
+    question: 'How do I add FAQ schema to my page?',
+    answer: 'Generate the FAQ schema using this tool, then paste the JSON-LD code inside a <script type="application/ld+json"> tag in your page\'s <head> section. The schema includes @type "FAQPage" with each question as a Question entity containing an acceptedAnswer. Google can then display your FAQs as expandable rich results in search.'
+  },
+  {
+    question: 'What schema types are eligible for rich results?',
+    answer: 'Google supports rich results for Article, Product, FAQ, HowTo, Recipe, Event, LocalBusiness, Review, VideoObject, BreadcrumbList, and JobPosting schema types. Each type must include required properties - for example, Product schema needs name, image, and offers. The tool validates these requirements and shows which rich results your schema qualifies for.'
+  },
+  {
+    question: 'How do I validate my schema markup?',
+    answer: 'Use this tool to scan your page for existing JSON-LD, Microdata, or RDFa markup. It validates against schema.org standards and Google\'s requirements, checking for errors, missing required fields, and rich results eligibility. You can also test with Google\'s Rich Results Test at search.google.com/test/rich-results.'
+  }
+];
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Suparank Schema Markup Generator",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Cross-platform",
+  "description": tool.longDescription,
+  "url": `https://suparank.io/tools/${tool.id}`,
+  "author": {
+    "@type": "Organization",
+    "name": "Suparank"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+};
+
+const exampleOutput = `═══════════════════════════════════════════════════════════════════
+SUPARANK SCHEMA MARKUP AUDIT
+═══════════════════════════════════════════════════════════════════
+File: src/pages/products/widget.astro
+Date: 2026-01-16
+
+───────────────────────────────────────────────────────────────────
+EXISTING SCHEMA FOUND (1)
+───────────────────────────────────────────────────────────────────
+
+[JSON-LD] Organization schema
+  Location: Line 15-25
+  Status: ✓ Valid
+  Warnings: Missing 'logo' property (recommended)
+
+───────────────────────────────────────────────────────────────────
+MISSING SCHEMA RECOMMENDATIONS
+───────────────────────────────────────────────────────────────────
+
+[RECOMMENDED] Product schema
+  Reason: Page contains product information
+  Rich Result: Product rich snippet with price, availability, reviews
+  Priority: High
+
+[RECOMMENDED] BreadcrumbList schema
+  Reason: Page has navigation breadcrumbs
+  Rich Result: Breadcrumb trail in search results
+  Priority: Medium
+
+───────────────────────────────────────────────────────────────────
+GENERATED SCHEMA
+───────────────────────────────────────────────────────────────────
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Premium Widget",
+  "description": "High-quality widget for all your needs",
+  "image": "https://example.com/widget.jpg",
+  "brand": {
+    "@type": "Brand",
+    "name": "WidgetCo"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "29.99",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock"
+  }
+}
+</script>
+
+───────────────────────────────────────────────────────────────────
+VALIDATION SUMMARY
+───────────────────────────────────────────────────────────────────
+
+✓ No critical errors
+⚠ 1 warning (missing recommended property)
++ 2 schema types recommended
+
+═══════════════════════════════════════════════════════════════════`;
+---
+
+<Layout
+  title="Free Schema Markup Generator - JSON-LD Structured Data for Rich Results | Suparank"
+  description="Free JSON-LD schema generator and validator. Create Article, FAQ, HowTo, Product schema for Google rich results. Works in Claude Code, Cursor & AI assistants."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(softwareSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+  <Header />
+  <main>
+    <!-- Hero -->
+    <section class="pt-24 md:pt-32 pb-16 section-divider">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <a href="/tools" class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            All Tools
+          </a>
+
+          <div class="flex items-center gap-4 mb-6">
+            <i class={`${tool.icon} text-5xl text-primary`}></i>
+            <div>
+              <span class="text-xs font-medium px-2 py-1 bg-primary/10 text-primary rounded-full">
+                {tool.category}
+              </span>
+            </div>
+          </div>
+
+          <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+            {tool.name}
+          </h1>
+          <p class="text-xl text-muted-foreground mb-8">
+            {tool.longDescription}
+          </p>
+
+          <!-- Install Command -->
+          <div class="bg-muted/50 border rounded p-4 mb-6">
+            <p class="text-sm text-muted-foreground mb-2">Install and use:</p>
+            <div class="space-y-2">
+              <div class="flex items-center gap-2 bg-background rounded border px-4 py-2 font-mono text-sm">
+                <code class="flex-1">curl -fsSL https://suparank.io/install | bash</code>
+              </div>
+              <div class="flex items-center gap-2 bg-background rounded border px-4 py-2 font-mono text-sm">
+                <code class="flex-1 text-primary">{tool.command}</code>
+              </div>
+            </div>
+          </div>
+
+          <!-- Supported Platforms -->
+          <div class="flex flex-wrap gap-4 text-sm text-muted-foreground">
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+              Claude Code
+            </span>
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+              Cursor
+            </span>
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+              OpenCode
+            </span>
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+              Codex
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="py-16 section-divider bg-muted/30">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-2xl font-bold mb-8">What It Does</h2>
+          <div class="grid md:grid-cols-2 gap-4">
+            {features.map(feature => (
+              <div class="p-4 bg-background border rounded">
+                <h3 class="font-semibold mb-1">{feature.name}</h3>
+                <p class="text-sm text-muted-foreground">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Example Output -->
+    <section class="py-16 section-divider">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-2xl font-bold mb-8">Example Output</h2>
+          <div class="bg-zinc-950 text-zinc-100 rounded p-6 overflow-x-auto">
+            <pre class="text-sm font-mono whitespace-pre">{exampleOutput}</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-16 section-divider bg-muted/30">
+      <div class="container mx-auto px-6">
+        <div class="max-w-3xl mx-auto">
+          <h2 class="text-2xl font-bold mb-8">Frequently Asked Questions</h2>
+          <div class="space-y-4">
+            {faqs.map(faq => (
+              <div class="border rounded p-6 bg-background">
+                <h3 class="font-semibold mb-2">{faq.question}</h3>
+                <p class="text-muted-foreground">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Tools -->
+    <section class="py-16 section-divider">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-2xl font-bold mb-8">Related Tools</h2>
+          <div class="grid md:grid-cols-3 gap-4">
+            <a href="/tools/technical-seo-audit" class="p-4 border rounded hover:border-primary/50 transition-colors">
+              <i class="ph-duotone ph-gear-six text-2xl text-primary"></i>
+              <h3 class="font-semibold mt-2">Technical SEO Audit</h3>
+              <p class="text-sm text-muted-foreground">Crawlability & indexing</p>
+            </a>
+            <a href="/tools/meta-tag-generator" class="p-4 border rounded hover:border-primary/50 transition-colors">
+              <i class="ph-duotone ph-tag text-2xl text-primary"></i>
+              <h3 class="font-semibold mt-2">Meta Tag Generator</h3>
+              <p class="text-sm text-muted-foreground">Title, OG, Twitter Cards</p>
+            </a>
+            <a href="/tools/on-page-seo-checker" class="p-4 border rounded hover:border-primary/50 transition-colors">
+              <i class="ph-duotone ph-chart-bar text-2xl text-primary"></i>
+              <h3 class="font-semibold mt-2">On-Page SEO Checker</h3>
+              <p class="text-sm text-muted-foreground">Title, meta, headings</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16 section-divider bg-primary/5">
+      <div class="container mx-auto px-6">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="text-2xl font-bold mb-4">Generate Schema Markup Now</h2>
+          <p class="text-muted-foreground mb-6">
+            Install Suparank tools and start generating JSON-LD structured data in seconds.
+          </p>
+          <div class="bg-background border rounded p-4 max-w-xl mx-auto mb-4">
+            <code class="font-mono">curl -fsSL https://suparank.io/install | bash</code>
+          </div>
+          <p class="text-sm text-muted-foreground">
+            Then type <code class="bg-muted px-1 rounded">/suparank-schema</code> in your AI assistant
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

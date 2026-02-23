@@ -1,0 +1,317 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+const tool = {
+  id: 'internal-link-checker',
+  name: 'Internal Link Checker',
+  command: '/suparank-links',
+  description: 'Free internal link checker and broken link detector. Analyze anchor text distribution, find orphan pages, check redirect chains, and audit external links.',
+  longDescription: 'Run a comprehensive internal link checker directly in your AI coding assistant. Find broken links (404 errors), analyze anchor text distribution for over-optimization, detect orphan pages with no incoming links, check redirect chains (301/302), and audit external links for nofollow/sponsored attributes.',
+  category: 'SEO',
+  icon: 'ph-duotone ph-link'
+};
+
+const features = [
+  { name: 'Broken Link Detection', description: 'Find internal and external links that return 404 or other errors' },
+  { name: 'Redirect Chain Analysis', description: 'Identify redirect chains and loops that waste crawl budget' },
+  { name: 'Anchor Text Audit', description: 'Check anchor text diversity and over-optimization issues' },
+  { name: 'Orphan Page Detection', description: 'Find pages with no internal links pointing to them' },
+  { name: 'External Link Quality', description: 'Audit outbound links for spam, broken, or low-quality sites' },
+  { name: 'Link Depth Analysis', description: 'Ensure important pages are reachable within 3 clicks' },
+  { name: 'Nofollow/Sponsored Check', description: 'Verify proper rel attributes on affiliate and sponsored links' },
+  { name: 'Internal Link Distribution', description: 'Analyze how link equity flows through your site' }
+];
+
+const faqs = [
+  {
+    question: 'How do I find broken links on my website?',
+    answer: 'Use an internal link checker tool like Suparank to scan your pages for 404 errors, DNS failures, and timeout errors. The tool crawls your HTML/Astro/JSX files to find broken internal links and external links that return errors. You can also check individual pages or your entire site to detect broken links before they impact user experience and SEO.'
+  },
+  {
+    question: 'What is anchor text over-optimization?',
+    answer: 'Anchor text over-optimization happens when you use too many exact-match keywords in your internal links. For example, if every link to your "SEO tools" page uses the exact phrase "SEO tools", it can look unnatural to search engines. A healthy distribution includes exact match (under 10%), partial match, branded anchors, and natural phrases. Over-optimization can trigger Google penalties.'
+  },
+  {
+    question: 'How do I find orphan pages?',
+    answer: 'Orphan pages are pages with no internal links pointing to them. Use an internal link checker to crawl your site and identify pages that aren\'t linked from any other page. These pages are hard for search engines to discover and won\'t receive internal link equity. To fix orphan pages, add contextual links from related content or include them in your navigation, sitemap, or footer.'
+  },
+  {
+    question: 'What is a redirect chain in SEO?',
+    answer: 'A redirect chain occurs when URL A redirects to B, which redirects to C. For example: /old-page → /newer-page → /current-page. Each redirect adds latency (slower load times) and can dilute PageRank. Search engines may also stop following chains after 3-5 hops. Fix redirect chains by updating all links to point directly to the final destination URL.'
+  }
+];
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Suparank Link Audit",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Cross-platform",
+  "description": tool.longDescription,
+  "url": `https://suparank.io/tools/${tool.id}`,
+  "author": {
+    "@type": "Organization",
+    "name": "Suparank"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+};
+
+const exampleOutput = `═══════════════════════════════════════════════════════════════════
+SUPARANK LINK AUDIT
+═══════════════════════════════════════════════════════════════════
+File: src/pages/blog/index.astro
+Date: 2026-01-16
+Total Links: 47 (32 internal, 15 external)
+
+───────────────────────────────────────────────────────────────────
+BROKEN LINKS (2)
+───────────────────────────────────────────────────────────────────
+
+[ERROR] Internal link returns 404
+  Location: Line 89
+  Link: <a href="/blog/old-post">Read more</a>
+  Fix: Update to valid URL or remove link
+
+[ERROR] External link returns 404
+  Location: Line 156
+  Link: <a href="https://example.com/deleted-page">Source</a>
+  Fix: Find alternative source or remove reference
+
+───────────────────────────────────────────────────────────────────
+REDIRECT CHAINS (1)
+───────────────────────────────────────────────────────────────────
+
+[WARNING] 3-hop redirect chain
+  Location: Line 45
+  Chain: /old-url → /newer-url → /current-url
+  Impact: Extra latency, potential PageRank loss
+  Fix: Update link to point directly to /current-url
+
+───────────────────────────────────────────────────────────────────
+ANCHOR TEXT ANALYSIS
+───────────────────────────────────────────────────────────────────
+
+Distribution:
+  ├── Exact match: 8% (healthy)
+  ├── Partial match: 22% (healthy)
+  ├── Branded: 15% (healthy)
+  ├── Generic ("click here", "read more"): 45% ⚠
+  └── URL anchors: 10% (ok)
+
+[WARNING] High generic anchor text usage
+  Issue: 45% of anchors are non-descriptive
+  Impact: Missed SEO opportunity, poor accessibility
+  Examples:
+    - Line 34: "click here" → "view pricing plans"
+    - Line 67: "read more" → "read the SEO guide"
+    - Line 89: "learn more" → "learn about Core Web Vitals"
+
+───────────────────────────────────────────────────────────────────
+EXTERNAL LINKS (15)
+───────────────────────────────────────────────────────────────────
+
+✓ 12 links to quality domains
+⚠ 2 links missing rel="nofollow sponsored" (affiliate)
+  - Line 112: Amazon affiliate link
+  - Line 145: Partner tool link
+
+✓ 1 link with proper ugc attribute
+
+───────────────────────────────────────────────────────────────────
+SUMMARY
+───────────────────────────────────────────────────────────────────
+
+Broken Links: 2 (fix immediately)
+Redirect Chains: 1 (fix for performance)
+Anchor Text: Needs improvement (reduce generic anchors)
+External Links: 2 missing proper attributes
+
+Link Health Score: 72/100
+
+═══════════════════════════════════════════════════════════════════`;
+---
+
+<Layout
+  title="Free Internal Link Checker - Broken Links & Anchor Text Analysis | Suparank"
+  description="Free internal link checker and broken link finder. Analyze anchor text, find orphan pages, detect redirect chains. Works in Claude Code, Cursor & AI assistants."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(softwareSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+  <Header />
+  <main>
+    <!-- Hero -->
+    <section class="pt-24 md:pt-32 pb-16 section-divider">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <a href="/tools" class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            All Tools
+          </a>
+
+          <div class="flex items-center gap-4 mb-6">
+            <i class="ph-duotone ph-link text-5xl text-primary"></i>
+            <div>
+              <span class="text-xs font-medium px-2 py-1 bg-primary/10 text-primary rounded-full">
+                {tool.category}
+              </span>
+            </div>
+          </div>
+
+          <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+            {tool.name}
+          </h1>
+          <p class="text-xl text-muted-foreground mb-8">
+            {tool.longDescription}
+          </p>
+
+          <!-- Install Command -->
+          <div class="bg-muted/50 border p-4 mb-6">
+            <p class="text-sm text-muted-foreground mb-2">Install and use:</p>
+            <div class="space-y-2">
+              <div class="flex items-center gap-2 bg-background border px-4 py-2 font-mono text-sm">
+                <code class="flex-1">curl -fsSL https://suparank.io/install | bash</code>
+              </div>
+              <div class="flex items-center gap-2 bg-background border px-4 py-2 font-mono text-sm">
+                <code class="flex-1 text-primary">{tool.command}</code>
+              </div>
+            </div>
+          </div>
+
+          <!-- Supported Platforms -->
+          <div class="flex flex-wrap gap-4 text-sm text-muted-foreground">
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+              Claude Code
+            </span>
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+              Cursor
+            </span>
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+              OpenCode
+            </span>
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+              Codex
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="py-16 section-divider bg-muted/30">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-2xl font-bold mb-8">What It Checks</h2>
+          <div class="grid md:grid-cols-2 gap-4">
+            {features.map(feature => (
+              <div class="p-4 bg-background border">
+                <h3 class="font-semibold mb-1">{feature.name}</h3>
+                <p class="text-sm text-muted-foreground">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Example Output -->
+    <section class="py-16 section-divider">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-2xl font-bold mb-8">Example Output</h2>
+          <div class="bg-zinc-950 text-zinc-100 border p-6 overflow-x-auto">
+            <pre class="text-sm font-mono whitespace-pre">{exampleOutput}</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-16 section-divider bg-muted/30">
+      <div class="container mx-auto px-6">
+        <div class="max-w-3xl mx-auto">
+          <h2 class="text-2xl font-bold mb-8">Frequently Asked Questions</h2>
+          <div class="space-y-4">
+            {faqs.map(faq => (
+              <div class="border p-6 bg-background">
+                <h3 class="font-semibold mb-2">{faq.question}</h3>
+                <p class="text-muted-foreground">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Tools -->
+    <section class="py-16 section-divider">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-2xl font-bold mb-8">Related Tools</h2>
+          <div class="grid md:grid-cols-3 gap-4">
+            <a href="/tools/on-page-seo-checker" class="p-4 border hover:border-primary/50 transition-colors">
+              <i class="ph-duotone ph-chart-bar text-2xl text-primary"></i>
+              <h3 class="font-semibold mt-2">On-Page SEO Checker</h3>
+              <p class="text-sm text-muted-foreground">Title, meta, headings</p>
+            </a>
+            <a href="/tools/technical-seo-audit" class="p-4 border hover:border-primary/50 transition-colors">
+              <i class="ph-duotone ph-gear-six text-2xl text-primary"></i>
+              <h3 class="font-semibold mt-2">Technical SEO Audit</h3>
+              <p class="text-sm text-muted-foreground">Crawlability & indexing</p>
+            </a>
+            <a href="/tools/alt-text-checker" class="p-4 border hover:border-primary/50 transition-colors">
+              <i class="ph-duotone ph-image text-2xl text-primary"></i>
+              <h3 class="font-semibold mt-2">Image Alt Text Checker</h3>
+              <p class="text-sm text-muted-foreground">Alt text & image SEO</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16 section-divider bg-primary/5">
+      <div class="container mx-auto px-6">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="text-2xl font-bold mb-4">Audit Your Links Now</h2>
+          <p class="text-muted-foreground mb-6">
+            Install Suparank tools and find broken links in seconds.
+          </p>
+          <div class="bg-background border p-4 max-w-xl mx-auto mb-4">
+            <code class="font-mono">curl -fsSL https://suparank.io/install | bash</code>
+          </div>
+          <p class="text-sm text-muted-foreground">
+            Then type <code class="bg-muted px-1 rounded">/suparank-links</code> in your AI assistant
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

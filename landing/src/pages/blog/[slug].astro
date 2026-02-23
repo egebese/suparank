@@ -1,0 +1,229 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import GradientHero from '../../components/blog/GradientHero.astro';
+import CategoryBadge from '../../components/blog/CategoryBadge.astro';
+import BlogSidebar from '../../components/blog/BlogSidebar.astro';
+import MobileToC from '../../components/blog/MobileToC.astro';
+import RelatedPosts from '../../components/blog/RelatedPosts.astro';
+import FAQAccordion from '../../components/blog/mdx/FAQAccordion.astro';
+import CTA from '../../components/CTA.astro';
+import { formatDate, formatDateISO, getAuthor, getRelatedPosts, calculateReadingTime } from '../../lib/blog';
+import { categories } from '../../content/config';
+
+// MDX Components
+import Callout from '../../components/blog/mdx/Callout.astro';
+import TLDR from '../../components/blog/mdx/TLDR.astro';
+import CTACard from '../../components/blog/mdx/CTACard.astro';
+import Table from '../../components/blog/mdx/Table.astro';
+import Resources from '../../components/blog/mdx/Resources.astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+};
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+
+const {
+  title,
+  description,
+  metaTitle,
+  metaDescription,
+  publishedAt,
+  updatedAt,
+  author: authorSlug,
+  category,
+  tags,
+  readingTime: customReadingTime,
+  faqs,
+} = post.data;
+
+const author = await getAuthor(authorSlug);
+const relatedPosts = await getRelatedPosts(post, 3);
+const categoryMeta = categories[category];
+
+// Calculate reading time if not provided
+const readingTime = customReadingTime || calculateReadingTime(post.body || '');
+
+// Full URL for sharing
+const siteUrl = 'https://suparank.io';
+const postUrl = `${siteUrl}/blog/${post.id}`;
+
+// Schema.org Article
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "image": `${siteUrl}/branding/logo-light.png`,
+  "datePublished": formatDateISO(publishedAt),
+  "dateModified": formatDateISO(updatedAt || publishedAt),
+  "author": author ? {
+    "@type": "Person",
+    "name": author.data.name,
+    "url": `${siteUrl}/blog/authors/${author.data.slug}`,
+    "jobTitle": author.data.title,
+  } : undefined,
+  "publisher": {
+    "@type": "Organization",
+    "name": "Suparank",
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${siteUrl}/branding/logo-light.png`
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": postUrl
+  }
+};
+
+// FAQ Schema
+const faqSchema = faqs && faqs.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map((faq) => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+} : null;
+
+// Breadcrumb Schema
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": `${siteUrl}/blog` },
+    { "@type": "ListItem", "position": 3, "name": categoryMeta.name, "item": `${siteUrl}/blog/category/${category}` },
+    { "@type": "ListItem", "position": 4, "name": title }
+  ]
+};
+---
+
+<BlogLayout
+  title={title}
+  description={description}
+  metaTitle={metaTitle || `${title} | Suparank Blog`}
+  metaDescription={metaDescription || description}
+  ogType="article"
+  ogImage={post.data.heroImage || '/og.jpeg'}
+  publishedTime={publishedAt}
+  modifiedTime={updatedAt}
+  author={author?.data.name}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+    {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  </Fragment>
+
+  <article>
+    <!-- Header Section -->
+    <header class="container mx-auto px-6 pt-8 md:pt-12">
+      <!-- Category -->
+      <CategoryBadge category={category} href={`/blog/category/${category}`} size="md" />
+
+      <!-- Title -->
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mt-4 mb-4 leading-tight max-w-4xl">
+        {title}
+      </h1>
+
+      <!-- Description -->
+      <p class="text-lg md:text-xl text-muted-foreground mb-6 max-w-3xl">
+        {description}
+      </p>
+
+      <!-- Meta row -->
+      <div class="flex items-center gap-3 text-sm text-muted-foreground font-mono">
+        {readingTime && (
+          <span>{readingTime} mins read</span>
+        )}
+        <span class="text-border">|</span>
+        <time datetime={formatDateISO(publishedAt)}>
+          Published {formatDate(publishedAt)}
+        </time>
+      </div>
+    </header>
+
+    <!-- Hero Image (edge to edge within max-width) -->
+    <div class="max-w-[1280px] mx-auto mt-8 md:mt-12">
+      {post.data.heroImage ? (
+        <img
+          src={post.data.heroImage}
+          alt={title}
+          class="w-full aspect-[21/9] md:aspect-[3/1] object-cover"
+          loading="eager"
+        />
+      ) : (
+        <GradientHero category={category} slug={post.id} class="w-full aspect-[21/9] md:aspect-[3/1]" />
+      )}
+    </div>
+
+    <!-- Content Area -->
+    <div class="max-w-[1280px] mx-auto">
+      <!-- Two-column layout -->
+      <div class="lg:grid lg:grid-cols-[1fr_400px]">
+        <!-- Main Content -->
+        <div class="flex-1 min-w-0 pt-3 px-6 pb-16">
+          <!-- Mobile ToC -->
+          <div class="lg:hidden mb-6">
+            <MobileToC headings={headings} />
+          </div>
+          <div class="prose">
+            <Content components={{ Callout, TLDR, CTACard, Table, Resources }} />
+          </div>
+
+          <!-- FAQ Section -->
+          {faqs && faqs.length > 0 && (
+            <section class="mt-12 pt-8 border-t border-border">
+              <h2 class="text-2xl font-semibold text-foreground mb-6">Frequently Asked Questions</h2>
+              <FAQAccordion items={faqs} />
+            </section>
+          )}
+
+          <!-- Tags -->
+          {tags && tags.length > 0 && (
+            <div class="mt-12 pt-8 border-t border-border">
+              <h3 class="text-sm font-medium text-muted-foreground mb-3">Tags</h3>
+              <div class="flex flex-wrap gap-2">
+                {tags.map((tag) => (
+                  <span class="px-2 py-1 text-xs bg-muted text-muted-foreground rounded-sm">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <!-- Related Posts -->
+          <div class="mt-12 pt-8 border-t border-border">
+            <RelatedPosts posts={relatedPosts} />
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        {author && (
+          <BlogSidebar
+            author={author.data}
+            headings={headings}
+            shareUrl={postUrl}
+            shareTitle={title}
+          />
+        )}
+      </div>
+    </div>
+  </article>
+
+  <CTA />
+</BlogLayout>

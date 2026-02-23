@@ -1,0 +1,64 @@
+---
+const faqs = [
+  {
+    question: 'What is Suparank?',
+    answer: 'Suparank is a free, open-source set of 8 Claude Code Skills for AI-powered SEO content creation. It covers keyword research, content writing, optimization, and publishing. Install all skills with `npx skills add egebese/suparank --global --all`.',
+  },
+  {
+    question: 'How do Claude Code Skills work?',
+    answer: 'Install Suparank skills with `npx skills add egebese/suparank --global --all`, then use slash commands like `/suparank/research`, `/suparank/create`, and `/suparank/publish` directly in Claude Code to run SEO workflows from your terminal.',
+  },
+  {
+    question: 'Is my data secure?',
+    answer: 'Yes. Everything runs locally on your machine. The code is fully open source on GitHub with no server or cloud dependency, so you can audit every line. Your credentials and content never leave your computer.',
+  },
+  {
+    question: 'What do I need?',
+    answer: 'You need Claude Code, Anthropic\'s official CLI. Optionally, pair Suparank with seo-mcp to get real Ahrefs keyword data for more accurate research and difficulty scores.',
+  },
+  {
+    question: 'Can I publish directly to my blog?',
+    answer: 'Yes. Use `/suparank/publish` to publish directly to WordPress or Ghost. It supports both draft and published status so you can review before going live.',
+  },
+  {
+    question: 'What is GEO optimization?',
+    answer: 'GEO (Generative Engine Optimization) optimizes content for AI search engines like ChatGPT, Perplexity, and Google SGE, helping your content appear in AI-generated answers.',
+  },
+];
+---
+
+<section id="faq" class="pt-10 md:pt-16 pb-16 md:pb-32 section-divider">
+  <div class="container mx-auto px-6">
+    <div class="text-center pb-10 md:pb-16 relative">
+      <p class="text-sm font-medium text-primary mb-3 md:mb-4">FAQ</p>
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-foreground tracking-tight">
+        Questions & answers
+      </h2>
+      <!-- Divider after header -->
+      <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-screen h-px bg-border"></div>
+    </div>
+
+    <div class="max-w-3xl mx-auto">
+      {faqs.map((faq, index) => (
+        <details class="group border-b border-border last:border-b-0" open={index === 0}>
+          <summary class="flex items-center justify-between p-4 cursor-pointer list-none">
+            <span class="font-medium text-foreground text-sm pr-4">{faq.question}</span>
+            <svg
+              class="w-5 h-5 text-muted-foreground flex-shrink-0 transition-transform group-open:rotate-180"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="px-4 pb-4">
+            <p class="text-sm text-muted-foreground leading-relaxed">
+              {faq.answer}
+            </p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,138 @@
+#!/bin/bash
+
+# Suparank SEO Tools Installer
+# https://suparank.io
+#
+# Installs slash commands for:
+# - Claude Code
+# - Cursor
+# - OpenCode
+# - Codex
+# - Antigravity (Gemini CLI)
+
+set -e
+
+SUPARANK_URL="https://suparank.io/commands"
+INSTALLED=0
+VERSION="1.0.0"
+
+echo ""
+echo "  ╔═══════════════════════════════════════╗"
+echo "  ║   Suparank SEO Tools Installer v$VERSION  ║"
+echo "  ╚═══════════════════════════════════════╝"
+echo ""
+
+# Define all tools
+TOOLS=(
+  "suparank-full"
+  "suparank-onpage"
+  "suparank-a11y"
+  "suparank-llms"
+  "suparank-robots"
+  "suparank-technical"
+  "suparank-schema"
+  "suparank-cwv"
+  "suparank-meta"
+  "suparank-links"
+  "suparank-images"
+)
+
+# Claude Code
+if [ -d "$HOME/.claude" ]; then
+  echo "  Installing for Claude Code..."
+  mkdir -p "$HOME/.claude/commands"
+  for tool in "${TOOLS[@]}"; do
+    curl -sL -o "$HOME/.claude/commands/${tool}.md" "$SUPARANK_URL/${tool}.md" 2>/dev/null || true
+  done
+  echo "  ✓ Claude Code"
+  INSTALLED=$((INSTALLED + 1))
+fi
+
+# Cursor
+if [ -d "$HOME/.cursor" ]; then
+  echo "  Installing for Cursor..."
+  mkdir -p "$HOME/.cursor/commands"
+  for tool in "${TOOLS[@]}"; do
+    curl -sL -o "$HOME/.cursor/commands/${tool}.md" "$SUPARANK_URL/${tool}.md" 2>/dev/null || true
+  done
+  echo "  ✓ Cursor"
+  INSTALLED=$((INSTALLED + 1))
+fi
+
+# OpenCode
+if command -v opencode &> /dev/null || [ -d "$HOME/.config/opencode" ]; then
+  echo "  Installing for OpenCode..."
+  mkdir -p "$HOME/.config/opencode/command"
+  for tool in "${TOOLS[@]}"; do
+    curl -sL -o "$HOME/.config/opencode/command/${tool}.md" "$SUPARANK_URL/${tool}.md" 2>/dev/null || true
+  done
+  echo "  ✓ OpenCode"
+  INSTALLED=$((INSTALLED + 1))
+fi
+
+# Codex CLI
+if command -v codex &> /dev/null || [ -d "$HOME/.codex" ]; then
+  echo "  Installing for Codex..."
+  mkdir -p "$HOME/.codex/prompts"
+  for tool in "${TOOLS[@]}"; do
+    curl -sL -o "$HOME/.codex/prompts/${tool}.md" "$SUPARANK_URL/${tool}.md" 2>/dev/null || true
+  done
+  echo "  ✓ Codex"
+  INSTALLED=$((INSTALLED + 1))
+fi
+
+# Antigravity (Gemini CLI)
+if [ -d "$HOME/.gemini" ]; then
+  echo "  Installing for Antigravity..."
+  mkdir -p "$HOME/.gemini/antigravity/global_workflows"
+  for tool in "${TOOLS[@]}"; do
+    curl -sL -o "$HOME/.gemini/antigravity/global_workflows/${tool}.md" "$SUPARANK_URL/${tool}.md" 2>/dev/null || true
+  done
+  echo "  ✓ Antigravity"
+  INSTALLED=$((INSTALLED + 1))
+fi
+
+echo ""
+
+if [ $INSTALLED -eq 0 ]; then
+  echo "  ⚠ No supported AI coding tools detected."
+  echo ""
+  echo "  Please install one of these first:"
+  echo "    • Claude Code: https://claude.ai/code"
+  echo "    • Cursor: https://cursor.com"
+  echo "    • OpenCode: https://opencode.ai"
+  echo "    • Codex: https://openai.com/codex"
+  echo "    • Antigravity: https://antigravity.google"
+  echo ""
+  exit 1
+fi
+
+# Track installation (fire-and-forget, non-blocking)
+# Builds JSON array of installed tools
+TOOLS_JSON=$(printf '%s\n' "${TOOLS[@]}" | sed 's/.*/"&"/' | tr '\n' ',' | sed 's/,$//' | sed 's/^/[/' | sed 's/$/]/')
+(curl -s -X POST "https://api.suparank.io/installs" \
+  -H "Content-Type: application/json" \
+  -d "{\"tools\":$TOOLS_JSON,\"version\":\"$VERSION\"}" \
+  > /dev/null 2>&1 &) 2>/dev/null
+
+echo "  ╔═══════════════════════════════════════╗"
+echo "  ║        Installation Complete!          ║"
+echo "  ╚═══════════════════════════════════════╝"
+echo ""
+echo "  Available commands:"
+echo ""
+echo "    /suparank-full       Full SEO audit (all tools combined)"
+echo ""
+echo "    /suparank-onpage     On-page SEO audit"
+echo "    /suparank-a11y       Accessibility audit (WCAG 2.2)"
+echo "    /suparank-llms       LLMs.txt generator"
+echo "    /suparank-robots     Robots.txt generator"
+echo "    /suparank-technical  Technical SEO audit"
+echo "    /suparank-schema     Schema.org validator"
+echo "    /suparank-cwv        Core Web Vitals"
+echo "    /suparank-meta       Meta tags generator"
+echo "    /suparank-links      Link audit"
+echo "    /suparank-images     Image SEO audit"
+echo ""
+echo "  Learn more: https://suparank.io/tools"
+echo ""
