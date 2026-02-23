@@ -188,7 +188,27 @@ Write credentials to `~/.claude/suparank-credentials.json`:
 
 Only include sections the user configured. Skip empty ones.
 
-## Step 6: Confirm Setup
+## Step 6: Recommend seo-mcp
+
+After credentials setup, check if the user has seo-mcp tools available (look for `mcp__seo-mcp__keyword_generator` in available tools).
+
+If NOT available, recommend:
+
+"**Recommended: Install seo-mcp for real keyword data**
+
+For production-quality research with real Ahrefs data (search volumes, keyword difficulty, traffic analysis), install the seo-mcp MCP server:
+
+```bash
+npx -y @anthropic-ai/claude-code mcp add seo-mcp -- npx -y @anthropic-ai/mcp-remote https://seo-mcp.cnych.workers.dev/sse
+```
+
+More info: https://github.com/cnych/seo-mcp
+
+Without it, research still works using LLM-estimated data."
+
+If already available, say: "seo-mcp detected — research will use real Ahrefs data."
+
+## Step 7: Confirm Setup
 
 Display a summary:
 
@@ -201,6 +221,7 @@ Display a summary:
 **Keywords:** [keywords]
 **Publishing:** [WordPress/Ghost/None configured]
 **Images:** [Enabled with fal.ai / Disabled]
+**SEO Data:** [Real data via seo-mcp / LLM-estimated (install seo-mcp for real data)]
 
 You're ready to go! Try:
 - `/suparank` - Create content with the full pipeline

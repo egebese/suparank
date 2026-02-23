@@ -67,6 +67,16 @@ You're always asked before parallel agents are spawned.
 | Project config | `.claude/suparank.json` | Site, brand, SEO settings (per project) |
 | Credentials | `~/.claude/suparank-credentials.json` | CMS passwords, API keys (global, not committed) |
 
+## Recommended: seo-mcp for Real Data
+
+For production-quality research with **real Ahrefs data**, install the [seo-mcp](https://github.com/cnych/seo-mcp) MCP server:
+
+```bash
+npx -y @anthropic-ai/claude-code mcp add seo-mcp -- npx -y @anthropic-ai/mcp-remote https://seo-mcp.cnych.workers.dev/sse
+```
+
+This gives the research phase access to real keyword search volumes, difficulty scores, competitor traffic analysis, and backlink profiles. Without it, research uses LLM-estimated data.
+
 ## Publishing
 
 - **WordPress** — Standard REST API with application passwords

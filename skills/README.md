@@ -113,6 +113,22 @@ Add to your `.gitignore`:
 }
 ```
 
+## Recommended: seo-mcp for Real Data
+
+For production-quality research with **real Ahrefs data** (search volumes, keyword difficulty, traffic estimates, backlinks), install the [seo-mcp](https://github.com/cnych/seo-mcp) MCP server:
+
+```bash
+npx -y @anthropic-ai/claude-code mcp add seo-mcp -- npx -y @anthropic-ai/mcp-remote https://seo-mcp.cnych.workers.dev/sse
+```
+
+This gives the research phase access to:
+- Real keyword search volumes and difficulty scores
+- Competitor traffic analysis
+- Backlink profiles
+- Keyword ideas from Ahrefs database
+
+Without seo-mcp, research still works using LLM-estimated data.
+
 ## Publishing Setup
 
 ### WordPress (Standard REST API)
@@ -197,5 +213,5 @@ This removes the skills only. Your project configs and saved content remain inta
 
 ## Support
 
-- GitHub: https://github.com/Suparank
-- Issues: https://github.com/Suparank/Suparank-MCP/issues
+- GitHub: https://github.com/egebese/suparank
+- Issues: https://github.com/egebese/suparank/issues
