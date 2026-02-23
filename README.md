@@ -16,13 +16,6 @@ Suparank is a set of **Claude Code skills** that turn Claude into a full SEO con
 ## Install
 
 ```bash
-# One-line install
-curl -fsSL https://suparank.io/install | bash
-```
-
-Or manually:
-
-```bash
 mkdir -p ~/.claude/skills
 git clone https://github.com/egebese/suparank.git ~/.claude/skills/suparank
 ```
@@ -85,18 +78,18 @@ You're always asked before parallel agents are spawned.
 
 ```
 suparank/
-├── skills/              # Claude Code skill files
-│   ├── SKILL.md         # Master router
-│   ├── setup/           # Configuration wizard
-│   ├── pipeline/        # Full content pipeline
-│   ├── research/        # Keyword & SEO research
-│   ├── create/          # Content writing
-│   ├── optimize/        # Quality & GEO optimization
-│   ├── publish/         # CMS publishing
-│   ├── session/         # Article management
-│   └── templates/       # 10 expert prompt templates
-│
-└── landing/             # Landing page (Astro)
+└── skills/              # Claude Code skill files
+    ├── SKILL.md         # Master router
+    ├── README.md        # Installation guide
+    ├── HOW_TO_USE.md    # Quick start examples
+    ├── setup/           # Configuration wizard
+    ├── pipeline/        # Full content pipeline
+    ├── research/        # Keyword & SEO research
+    ├── create/          # Content writing
+    ├── optimize/        # Quality & GEO optimization
+    ├── publish/         # CMS publishing
+    ├── session/         # Article management
+    └── templates/       # 10 expert prompt templates
 ```
 
 ## Uninstall
@@ -109,7 +102,6 @@ Your project configs and saved content remain intact.
 
 ## Links
 
-- Website: [suparank.io](https://suparank.io)
 - Issues: [GitHub Issues](https://github.com/egebese/suparank/issues)
 
 ## License
